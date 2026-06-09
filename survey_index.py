@@ -1,9 +1,12 @@
 ﻿"""
-Survey file indexer for the Strathcona Dam Upgrade project.
+LandXML Survey Index — indexes geospatial survey files and writes a self-contained
+sortable/pageable HTML report (or plain text with --output txt).
 
-Indexes LandXML surfaces & alignments, LAZ point clouds, and TIFF orthophotos.
-Queries Everything (voidtools HTTP API), deduplicates results, and writes a
-self-contained sortable/pageable HTML report (or plain text with --output txt).
+File types indexed: LandXML (.xml) surfaces & alignments, LAZ/LAS point clouds,
+GeoTIFF orthophotos, and TBC project files (.vce).
+
+File discovery uses Everything (voidtools HTTP API) when available, and falls back
+to a directory walk automatically if Everything is not installed.
 
 Deduplication (all active by default):
   Hash dedup:     identical files (same MD5 prefix) collapse to the most canonical
@@ -18,16 +21,16 @@ Deduplication (all active by default):
                   Disable with --no-content-dedup.
 
 Usage:
-  uv run survey_index.py                     # surfaces only, HTML output
-  uv run survey_index.py --batch             # all file types, HTML output
-  uv run survey_index.py --mode alignments
-  uv run survey_index.py --sort size
-  uv run survey_index.py --output txt        # legacy text output
-  uv run survey_index.py --no-hash-dedup
-  uv run survey_index.py --prefer-path "01-OUTPUT"
+  uv run survey_index.py --path "C:\\Projects\\MyProject"
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --batch
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --title "My Project"
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --output-file "D:\\reports\\index.html"
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --logo "C:\\logo.png"
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --sort size
+  uv run survey_index.py --path "C:\\Projects\\MyProject" --output txt
 
 Scheduled indexing (run_index.bat + Windows Task Scheduler):
-  schtasks /create /tn "Survey Index" /tr "C:\\Projects\\file-finder\\run_index.bat"
+  schtasks /create /tn "Survey Index" /tr "C:\\Projects\\landxml-survey-index\\run_index.bat"
            /sc weekly /d MON /st 07:00 /f
 """
 
@@ -35,6 +38,7 @@ import argparse
 import base64
 import hashlib
 import json
+import os
 import struct
 import urllib.parse
 import urllib.request
@@ -43,11 +47,6 @@ from collections import defaultdict
 from datetime import datetime
 from pathlib import Path
 
-EVERYTHING_URL = "http://localhost"
-SEARCH_PATH = (
-    r"C:\Users\lcolton1\OneDrive - FlatironDragados"
-    r"\Rutherford, Chad's files - 1645 - Strathcona Dam Upgrade"
-)
 DEFAULT_PATH_PRIORITY = [
     "02-DESIGN",
     "03-ASBUILTS",
@@ -58,26 +57,44 @@ DEFAULT_PATH_PRIORITY = [
     "06-WORKING DATA",
 ]
 PAGE_SIZE = 50
-OUTPUT_HTML = Path(
-    r"C:\Users\lcolton1\OneDrive - FlatironDragados"
-    r"\Rutherford, Chad's files - 1645 - Strathcona Dam Upgrade\index.html"
-)
-OUTPUT_TXT  = Path(__file__).parent / "results.txt"
-LOGO_PATH = Path(
-    r"C:\Projects\FD LOGOS\Logo Package_NO Service Mark"
-    r"\Horizontally Stacked Logo_Digital\Full Color Horizontally Stacked Logo"
-    r"\FlatironDragados_Horizontally Stacked Logo_Full Color_RGB_DIGITAL.png"
-)
 
 
 # ── data access ───────────────────────────────────────────────────────────────
 
-def query_everything(search: str, max_results: int = 2000) -> list[dict]:
+def query_everything(search: str, max_results: int = 2000, url: str = "http://localhost") -> list[dict]:
     params = urllib.parse.urlencode({
         "s": search, "j": "1", "path_column": "1", "count": str(max_results),
     })
-    with urllib.request.urlopen(f"{EVERYTHING_URL}/?{params}", timeout=10) as r:
+    with urllib.request.urlopen(f"{url}/?{params}", timeout=10) as r:
         return json.loads(r.read().decode())["results"]
+
+
+def scan_files(search_path: str, ext: str) -> list[dict]:
+    """Walk directory tree; return [{path, name}] matching Everything's format."""
+    results = []
+    for root, _dirs, files in os.walk(search_path):
+        for fname in files:
+            if fname.lower().endswith("." + ext.lower()):
+                results.append({"path": root, "name": fname})
+    return results
+
+
+_everything_ok: bool | None = None  # None = untested, True = working, False = unavailable
+
+
+def find_files(search_path: str, ext: str, everything_url: str = "http://localhost", max_results: int = 2000) -> list[dict]:
+    """Query Everything if available; fall back to os.walk silently after first failure."""
+    global _everything_ok
+    if _everything_ok is not False:
+        try:
+            results = query_everything(f'ext:{ext} path:"{search_path}"', max_results, everything_url)
+            _everything_ok = True
+            return results
+        except Exception:
+            if _everything_ok is None:
+                print("  [info] Everything HTTP API not reachable — using directory scan (slower).")
+            _everything_ok = False
+    return scan_files(search_path, ext)
 
 
 def parse_file(
@@ -87,7 +104,7 @@ def parse_file(
     try:
         if not is_local(filepath):
             name = Path(filepath).stem
-            return {tag: [(name, 0, 0, 0.0)] for tag in tags}, None
+            return {tag: [(name, 0, 0, 0.0, 0.0)] for tag in tags}, None
         content = Path(filepath).read_bytes()
         md5 = hashlib.md5(content).hexdigest()
         root = ET.fromstring(content)
@@ -102,7 +119,8 @@ def parse_file(
                 (el.get("name", "<unnamed>"),
                  sum(1 for _ in el.iter(f"{pfx}P")),
                  sum(1 for _ in el.iter(f"{pfx}F")),
-                 float(el.get("length", 0) or 0))
+                 float(el.get("length", 0) or 0),
+                 float(el.get("staStart", 0) or 0))
                 for el in root.iter(f"{pfx}{tag}")
             ]
             if items:
@@ -312,11 +330,11 @@ def build_rows(
     else:
         files = [(p, s, t, 1) for p, s, t, _ in relevant]
 
-    # name → [(path, pts, faces, length, mtime, copies)]
+    # name → [(path, pts, faces, length, sta_start, mtime, copies)]
     name_map: dict[str, list] = defaultdict(list)
     for path, surfaces, t, copies in files:
-        for name, pts, faces, length in surfaces:
-            name_map[name].append((path, pts, faces, length, t, copies))
+        for name, pts, faces, length, sta_start in surfaces:
+            name_map[name].append((path, pts, faces, length, sta_start, t, copies))
 
     rows: list[dict] = []
 
@@ -324,21 +342,23 @@ def build_rows(
         # Phase 1: group by (pts, faces, length) — same geometry = same element
         for name, entries in name_map.items():
             by_geom: dict[tuple, list] = defaultdict(list)
-            for path, pts, faces, length, t, copies in entries:
-                by_geom[(pts, faces, length)].append((path, t, copies))
+            for path, pts, faces, length, sta_start, t, copies in entries:
+                by_geom[(pts, faces, length)].append((path, sta_start, t, copies))
 
             n_versions = len(by_geom)
             for vi, ((pts, faces, length), pt_entries) in enumerate(
                 sorted(by_geom.items(), key=lambda kv: kv[0][0] or kv[0][1] or kv[0][2], reverse=True), 1
             ):
-                total_copies = sum(c for _, _, c in pt_entries)
-                canon = best_path([p for p, _, _ in pt_entries], priority)
-                canon_t = next(t for p, t, _ in pt_entries if p == canon)
+                total_copies = sum(c for _, _, _, c in pt_entries)
+                canon = best_path([p for p, _, _, _ in pt_entries], priority)
+                canon_t   = next(t   for p, _, t, _ in pt_entries if p == canon)
+                canon_sta = next(sta for p, sta, _, _ in pt_entries if p == canon)
                 rows.append({
                     "name":         name,
                     "pts":          pts,
                     "faces":        faces,
                     "length":       length,
+                    "sta_start":    canon_sta,
                     "copies":       total_copies,
                     "n_files":      len(pt_entries),
                     "n_versions":   n_versions,
@@ -350,17 +370,19 @@ def build_rows(
                 })
     else:
         for name, entries in name_map.items():
-            total_copies = sum(c for _, _, _, _, _, c in entries)
-            max_pts      = max(pts    for _, pts, _, _, _, _ in entries)
-            max_faces    = max(faces  for _, _, faces, _, _, _ in entries)
-            max_len      = max(ln     for _, _, _, ln, _, _ in entries)
-            canon        = best_path([p for p, _, _, _, _, _ in entries], priority)
-            canon_t      = next(t for p, _, _, _, t, _ in entries if p == canon)
+            total_copies = sum(c for _, _, _, _, _, _, c in entries)
+            max_pts      = max(pts    for _, pts, _, _, _, _, _ in entries)
+            max_faces    = max(faces  for _, _, faces, _, _, _, _ in entries)
+            max_len      = max(ln     for _, _, _, ln, _, _, _ in entries)
+            canon        = best_path([p for p, _, _, _, _, _, _ in entries], priority)
+            canon_t      = next(t   for p, _, _, _, _, t, _ in entries if p == canon)
+            canon_sta    = next(sta for p, _, _, _, sta, _, _ in entries if p == canon)
             rows.append({
                 "name":         name,
                 "pts":          max_pts,
                 "faces":        max_faces,
                 "length":       max_len,
+                "sta_start":    canon_sta,
                 "copies":       total_copies,
                 "n_files":      len(entries),
                 "n_versions":   1,
@@ -602,7 +624,7 @@ function filt(id){
 }
 function srt(id,c){const t=T[id];t.dir=t.col===c?-t.dir:1;t.col=c;t.pg=0;render(id);}
 function go(id,p){T[id].pg=p;render(id);}
-const KEYS={surfaces:['n','p','fa','c','d','f','av'],alignments:['n','len','c','d','f','av'],pointclouds:['n','p','den','sz','c','d','f','av'],orthophotos:['n','w','h','gsd','sz','c','d','f','av'],tbcprojects:['n','sz','c','d','f','av']};
+const KEYS={surfaces:['n','p','fa','c','d','f','av'],alignments:['n','len','sta','sta_e','c','d','f','av'],pointclouds:['n','p','den','sz','c','d','f','av'],orthophotos:['n','w','h','gsd','sz','c','d','f','av'],tbcprojects:['n','sz','c','d','f','av']};
 function render(id){
   const t=T[id];let rows=[...t.fil];
   if(t.col!==null){
@@ -628,6 +650,7 @@ function fmtsz(b){return b>=1e9?(b/1e9).toFixed(1)+' GB':b>=1e6?(b/1e6).toFixed(
 function fmtgsd(m){return m?m>=1?m.toFixed(2)+' m':(m*100).toFixed(1)+' cm':'-';}
 function fmtlen(m){return m?m.toLocaleString('en',{maximumFractionDigits:1})+' m':'-';}
 function fmtden(d){return d?d.toFixed(1)+' pts/m²':'-';}
+function fmtsta(m){if(m===undefined||m===null)return'-';const k=Math.floor(m/1000);return k+'+'+(m%1000).toFixed(3).padStart(7,'0');}
 function mkrow(id,r){
   const nm=r.v?`${x(r.n)}<span class="ver">${x(r.v)}</span>`:x(r.n);
   const lk=`<td class="opn"><button data-p="${x(r.fp)}" onclick="cpy(this,this.dataset.p)" title="${x(r.fp)}">Copy</button></td>`;
@@ -642,7 +665,7 @@ function mkrow(id,r){
     const gsdCell=`<td class="num" title="${x(r.bb||'')}">${fmtgsd(r.gsd)}</td>`;
     return`<tr><td>${nm}</td><td class="num">${r.w?r.w.toLocaleString():'-'}</td><td class="num">${r.h?r.h.toLocaleString():'-'}</td>${gsdCell}<td class="num">${fmtsz(r.sz)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;}
   if(id==='alignments')
-    return`<tr><td>${nm}</td><td class="num">${fmtlen(r.len)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
+    return`<tr><td>${nm}</td><td class="num">${fmtlen(r.len)}</td><td class="num">${fmtsta(r.sta)}</td><td class="num">${fmtsta(r.sta_e)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
   if(id==='tbcprojects')
     return`<tr><td>${nm}</td><td class="num">${fmtsz(r.sz)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
   return`<tr><td>${nm}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
@@ -695,6 +718,8 @@ def render_html(
     rows_by_tag: dict[str, list[dict]],
     search_path: str,
     generated_at: str,
+    title: str = "Survey File Index",
+    logo_path: Path | None = None,
 ) -> str:
     surfaces     = rows_by_tag.get("Surface", [])
     alignments   = rows_by_tag.get("Alignment", [])
@@ -707,7 +732,11 @@ def render_html(
         return {"n": r["name"], "p": r["pts"], "fa": r["faces"], "c": r["copies"],
                 "d": r["date"], "f": r["filename"], "fp": r["filepath"], "v": r["version_note"], "av": av(r)}
     def ser_alignment(r):
-        return {"n": r["name"], "len": round(r["length"], 3), "c": r["copies"], "d": r["date"],
+        sta_s = r.get("sta_start", 0.0)
+        sta_e = sta_s + r["length"]
+        return {"n": r["name"], "len": round(r["length"], 3),
+                "sta": round(sta_s, 3), "sta_e": round(sta_e, 3),
+                "c": r["copies"], "d": r["date"],
                 "f": r["filename"], "fp": r["filepath"], "v": r["version_note"], "av": av(r)}
     def ser_pointcloud(r):
         return {"n": r["name"], "p": r["pts"], "den": round(r["density"], 2), "sz": r["size"], "c": r["copies"],
@@ -751,7 +780,7 @@ def render_html(
 
     col_map = {
         "surfaces":    ["Name", "Points", "Faces", "Copies", "Date", "File", "Avail", "Path"],
-        "alignments":  ["Name", "Length", "Copies", "Date", "File", "Avail", "Path"],
+        "alignments":  ["Name", "Length", ("Start Sta", "Start station"), ("End Sta", "End station"), "Copies", "Date", "File", "Avail", "Path"],
         "pointclouds": ["Name", "Points", ("Density", "Points per square metre (from LAS bounding box)"), "Size", "Copies", "Date", "File", "Avail", "Path"],
         "orthophotos": ["Name", "Width", "Height", ("GSD", "Ground Sample Distance — pixel size at ground level"), "Size", "Copies", "Date", "File", "Avail", "Path"],
         "tbcprojects":  ["Name", "Size", "Copies", "Date", "File", "Avail", "Path"],
@@ -770,24 +799,26 @@ def render_html(
         f"{len(tbcprojects):,} TBC projects" if tbcprojects else "",
     ]))
 
-    try:
-        logo_b64 = base64.b64encode(LOGO_PATH.read_bytes()).decode()
-        logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="FlatironDragados">'
-    except OSError:
-        logo_tag = ""
+    logo_tag = ""
+    if logo_path is not None:
+        try:
+            logo_b64 = base64.b64encode(logo_path.read_bytes()).decode()
+            logo_tag = f'<img src="data:image/png;base64,{logo_b64}" alt="logo">'
+        except OSError:
+            pass
 
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Survey File Index — Strathcona Dam Upgrade</title>
+<title>{title}</title>
 <style>{_CSS}</style>
 </head>
 <body>
 <header>
   <div class="hdr-left">
-    <h1>Survey File Index — Strathcona Dam Upgrade</h1>
+    <h1>{title}</h1>
     <p>Generated {generated_at} &mdash; {summary} &mdash; {search_path}</p>
   </div>
   {logo_tag}
@@ -823,13 +854,23 @@ def render_txt(rows_by_tag: dict[str, list[dict]], search_path: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Index LandXML Surfaces and/or Alignments in a directory tree.",
+        description="Index LandXML, LAZ, GeoTIFF, and TBC survey files in a directory tree.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
+    parser.add_argument("--path", required=True, metavar="DIR",
+                        help="Root directory to search (required)")
+    parser.add_argument("--title", default="Survey File Index",
+                        help="Report title shown in the HTML header (default: 'Survey File Index')")
+    parser.add_argument("--output-file", metavar="FILE",
+                        help="Path for the HTML output file (default: index.html in --path)")
+    parser.add_argument("--logo", metavar="FILE",
+                        help="Optional path to a PNG logo to embed in the report header")
+    parser.add_argument("--everything-url", default="http://localhost", metavar="URL",
+                        help="Everything HTTP server URL (default: http://localhost)")
     parser.add_argument("--mode", choices=["surfaces", "alignments"], default="surfaces",
                         help="Element type to index (ignored when --batch)")
     parser.add_argument("--batch", action="store_true",
-                        help="Index both Surfaces and Alignments in one pass")
+                        help="Index all file types in one pass")
     parser.add_argument("--sort", choices=["name", "date", "size"], default="name",
                         help="Initial sort order (default: name)")
     parser.add_argument("--output", choices=["html", "txt"], default="html")
@@ -839,16 +880,20 @@ def main() -> None:
                         help="Prepend folder fragment to priority list (repeatable)")
     args = parser.parse_args()
 
+    search_path = args.path
+    eu = args.everything_url
     priority = args.prefer_path + DEFAULT_PATH_PRIORITY
     tags     = ["Surface", "Alignment"] if args.batch else (
                ["Surface"] if args.mode == "surfaces" else ["Alignment"])
 
-    query = f'ext:xml path:"{SEARCH_PATH}"'
-    print(f"Querying Everything for XML files in:\n  {SEARCH_PATH}\n")
-    results = query_everything(query)
+    output_html = Path(args.output_file) if args.output_file else Path(search_path) / "index.html"
+    output_txt  = Path(args.output_file) if args.output_file else Path(__file__).parent / "results.txt"
+    logo_path   = Path(args.logo) if args.logo else None
+
+    print(f"Searching for XML files in:\n  {search_path}\n")
+    results = find_files(search_path, "xml", eu)
     print(f"Found {len(results)} XML file(s) — parsing for {', '.join(tags)}…\n")
 
-    # Parse every XML file once, extracting all requested tags simultaneously
     raw: list[tuple[str, dict, float, str | None]] = []
     for item in results:
         path = str(Path(item["path"]) / item["name"])
@@ -866,26 +911,24 @@ def main() -> None:
         print(f"  {tag}s: {len(rows)} unique entries")
 
     if args.batch:
-        laz_query = f'ext:laz path:"{SEARCH_PATH}"'
-        print(f"\nQuerying Everything for LAZ files…")
-        laz_results = query_everything(laz_query)
+        print(f"\nSearching for LAZ files…")
+        laz_results = find_files(search_path, "laz", eu)
         print(f"Found {len(laz_results)} LAZ file(s) — reading headers…\n")
         laz_rows = build_laz_rows(laz_results, priority)
         laz_rows = sort_rows(laz_rows, args.sort)
         rows_by_tag["PointCloud"] = laz_rows
         print(f"  Point Clouds: {len(laz_rows)} unique entries")
 
-        tif_results = (query_everything(f'ext:tif  path:"{SEARCH_PATH}"') +
-                       query_everything(f'ext:tiff path:"{SEARCH_PATH}"'))
-        print(f"\nQuerying Everything for TIFF files…")
+        print(f"\nSearching for TIFF files…")
+        tif_results = find_files(search_path, "tif", eu) + find_files(search_path, "tiff", eu)
         print(f"Found {len(tif_results)} TIFF file(s) — reading headers…\n")
         ortho_rows = build_ortho_rows(tif_results, priority)
         ortho_rows = sort_rows(ortho_rows, args.sort)
         rows_by_tag["Ortho"] = ortho_rows
         print(f"  Orthophotos: {len(ortho_rows)} unique entries")
 
-        vce_results = query_everything(f'ext:vce path:"{SEARCH_PATH}"')
-        print(f"\nQuerying Everything for VCE files…")
+        print(f"\nSearching for VCE files…")
+        vce_results = find_files(search_path, "vce", eu)
         print(f"Found {len(vce_results)} VCE file(s)…\n")
         vce_rows = build_vce_rows(vce_results, priority)
         vce_rows = sort_rows(vce_rows, args.sort)
@@ -895,13 +938,13 @@ def main() -> None:
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
     if args.output == "html":
-        html_out = render_html(rows_by_tag, SEARCH_PATH, generated_at)
-        OUTPUT_HTML.write_text(html_out, encoding="utf-8")
-        print(f"\nHTML index written to: {OUTPUT_HTML}")
+        html_out = render_html(rows_by_tag, search_path, generated_at, args.title, logo_path)
+        output_html.write_text(html_out, encoding="utf-8")
+        print(f"\nHTML index written to: {output_html}")
     else:
-        txt_out = render_txt(rows_by_tag, SEARCH_PATH)
-        OUTPUT_TXT.write_text(txt_out, encoding="utf-8")
-        print(f"\nResults written to: {OUTPUT_TXT}")
+        txt_out = render_txt(rows_by_tag, search_path)
+        output_txt.write_text(txt_out, encoding="utf-8")
+        print(f"\nResults written to: {output_txt}")
 
 
 if __name__ == "__main__":
