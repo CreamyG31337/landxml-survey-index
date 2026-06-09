@@ -2,6 +2,28 @@
 
 Indexes geospatial survey files in a project folder and produces a self-contained, sortable, pageable HTML report. Point it at any directory tree containing survey data and it produces a single `index.html` you can open in any browser or share with your team.
 
+## Screenshots
+
+**Surfaces** — 259 LandXML surfaces with point/face counts, version tracking, and live filter
+
+![Surfaces tab](screenshots/surfaces.jpg)
+
+**Alignments** — length, start/end station in chainage format (e.g. `2+000.000`)
+
+![Alignments tab](screenshots/alignments.jpg)
+
+**Point Clouds** — point count and density (pts/m²) read directly from LAS/LAZ headers
+
+![Point Clouds tab](screenshots/point-clouds.jpg)
+
+**Orthophotos** — pixel dimensions and GSD extracted from GeoTIFF tags
+
+![Orthophotos tab](screenshots/orthophotos.jpg)
+
+**TBC Projects** — Trimble Business Center `.vce` files with size and date
+
+![TBC Projects tab](screenshots/tbc-projects.jpg)
+
 ## File types indexed
 
 | Tab | Extension | Metadata extracted |
