@@ -760,11 +760,14 @@ def build_csv_rows(results: list[dict], priority: list[str]) -> list[dict]:
             mtime, size = stat.st_mtime, stat.st_size
         except OSError:
             continue
-        local = is_local(path)
-        meta = parse_csv_meta(path) if local else None
+        # Unlike the LAZ/TIFF/VCE indexers, CSV content search needs the actual
+        # file contents, so we parse every file — including OneDrive online-only
+        # placeholders. Opening one triggers Files On-Demand to hydrate it (these
+        # are small text files, so the download cost is minor).
+        meta = parse_csv_meta(path)
         if meta is None:
             meta = dict(_EMPTY_CSV)
-        h = partial_hash(path) if local else None
+        h = partial_hash(path)
         entry = (path, meta["rows"], meta["cols"], meta["bbox"],
                  meta["zmin"], meta["zmax"], meta["codes"], meta["terms"], mtime, size)
         if h:
