@@ -307,8 +307,10 @@ def parse_tiff_header(filepath: str) -> dict | None:
 _CSV_EAST = {"easting", "east", "x", "e"}
 _CSV_NORTH = {"northing", "north", "y", "n"}
 _CSV_ELEV = {"elevation", "elev", "height", "ortho height", "ellipsoid height", "z"}
-_CSV_CODE = {"code", "codes", "feature", "featurecode", "feature code", "fc",
-             "desc", "description", "layer", "attribute", "point code", "pcode"}
+_CSV_CODE = {"code", "codes", "feature", "featurecode", "feature code", "featcode",
+             "feat", "fc", "fcode", "string", "desc", "description", "layer",
+             "attribute", "attr", "note", "notes", "remark", "remarks", "comment",
+             "comments", "point code", "pointcode", "pcode", "pt code", "ptcode"}
 _CSV_MAX_CODES = 300  # cap distinct codes per file (safety on pathological data)
 
 _EMPTY_CSV = {"rows": 0, "cols": 0, "bbox": None, "zmin": None, "zmax": None, "codes": []}
@@ -320,11 +322,11 @@ def parse_csv_meta(filepath: str) -> dict | None:
     Returns {"rows": data-row count, "cols": column count, "bbox": (Emin, Nmin,
     Emax, Nmax) or None, "zmin"/"zmax": elevation range or None, "codes": sorted
     distinct feature codes}. Extent/elevation are computed only when a header row
-    names the coordinate columns (e.g. Northing/Easting/Elevation); feature codes
-    come from a header-named code/description column, or — for headerless PNEZD
-    exports — from the trailing (description) field, keeping only non-numeric
-    values. Returns None if the file can't be read. Streams line-by-line, so
-    memory stays flat on large exports.
+    names the coordinate columns (e.g. Northing/Easting/Elevation). Feature codes
+    come from a header-named code column when present; otherwise from the trailing
+    (description) field, as in a headerless PNEZD export — keeping only non-numeric
+    values so coordinate columns are never mistaken for codes. Returns None if the
+    file can't be read. Streams line-by-line, so memory stays flat on large exports.
     """
     import csv as _csv
     try:
@@ -336,10 +338,6 @@ def parse_csv_meta(filepath: str) -> dict | None:
                 delim = _csv.Sniffer().sniff(sample, delimiters=",;\t").delimiter
             except _csv.Error:
                 delim = ","
-            try:
-                has_header = _csv.Sniffer().has_header(sample)
-            except _csv.Error:
-                has_header = False
 
             f.seek(0)
             reader = _csv.reader(f, delimiter=delim)
@@ -347,6 +345,19 @@ def parse_csv_meta(filepath: str) -> dict | None:
             if first is None:
                 return dict(_EMPTY_CSV)
             cols = len(first)
+
+            # Header detection: peek a handful of data rows and compare how many
+            # numeric fields the first row has against the data rows. A header row
+            # has fewer (its coordinate columns are text). This is deterministic —
+            # csv.Sniffer().has_header() is unreliable on survey exports.
+            peek: list[list[str]] = []
+            for row in reader:
+                if row:
+                    peek.append(row)
+                if len(peek) >= 8:
+                    break
+            data_numeric = max((_numcount(r) for r in peek), default=0)
+            has_header = (_numcount(first) < data_numeric) if peek else (_numcount(first) == 0)
 
             e_i = n_i = z_i = c_i = None
             if has_header:
@@ -357,8 +368,8 @@ def parse_csv_meta(filepath: str) -> dict | None:
                     elif z_i is None and key in _CSV_ELEV:  z_i = i
                     elif c_i is None and key in _CSV_CODE:  c_i = i
             code_named = c_i is not None
-            if c_i is None and not has_header and cols:
-                c_i = cols - 1  # PNEZD convention: description is the trailing field
+            if c_i is None and cols:
+                c_i = cols - 1  # fall back to the trailing (description) field
 
             emin = nmin = zmin = float("inf")
             emax = nmax = zmax = float("-inf")
@@ -382,14 +393,19 @@ def parse_csv_meta(filepath: str) -> dict | None:
                         pass
                 if c_i is not None and c_i < len(row) and len(codes) < _CSV_MAX_CODES:
                     v = row[c_i].strip()
+                    # A name-matched code column is trusted verbatim; the trailing
+                    # fallback keeps only non-numeric text (so Z values aren't codes).
                     if v and (code_named or not _is_number(v)):
                         codes.add(v)
 
             rows = 0
             if not has_header:            # the row we consumed is data, not a header
-                rows = 1
+                rows += 1
                 consume(first)
-            for row in reader:
+            for row in peek:              # buffered data rows from header detection
+                rows += 1
+                consume(row)
+            for row in reader:            # remaining data rows
                 if not row:
                     continue
                 rows += 1
@@ -409,6 +425,11 @@ def _is_number(s: str) -> bool:
         return True
     except ValueError:
         return False
+
+
+def _numcount(row: list[str]) -> int:
+    """Count fields in a row that parse as numbers (used for header detection)."""
+    return sum(1 for v in row if _is_number(v.strip()))
 
 
 # ── dedup helpers ─────────────────────────────────────────────────────────────
