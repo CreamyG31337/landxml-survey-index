@@ -33,8 +33,15 @@ Indexes geospatial survey files in a project folder and produces a self-containe
 | Point Clouds | `.laz` / `.las` | Point count, density (pts/m²) |
 | Orthophotos | `.tif` / `.tiff` | Dimensions, GSD — supports classic TIFF, BigTIFF, GeoTIFF |
 | TBC Projects | `.vce` | File size and date |
+| CSV Files | `.csv` | Row (point) count, column count, distinct feature codes; E/N extent and elevation range when the header names coordinate columns |
 
 All tabs show: date modified, filename, cloud/local availability (✓ / ☁), and a **Copy Path** button.
+
+> **CSV extent:** the delimiter (`,` `;` or tab) is auto-detected. The E/N bounding box and elevation range are computed only when a header row names the coordinate columns (`Northing`/`Easting`/`Elevation`, `X`/`Y`/`Z`, etc.); they appear as a tooltip on the **Points** cell. Headerless PNEZD exports still get accurate row/column counts — just no extent.
+>
+> **Find files by feature code:** each CSV's distinct feature codes are extracted from a header-named `Code`/`Description`/`Feature` column, or the trailing description field of a headerless PNEZD export. The **Codes** column shows the count (hover to see the full list), and typing a code into the tab's filter box narrows the list to every CSV that contains it.
+>
+> **Folder scope:** to keep the tab focused on coded survey points, CSVs are only indexed under `05-QC SURVEY DATA\` by default. Change the folder with `--csv-under "FRAGMENT"`, or pass `--csv-under ""` to index CSVs anywhere in the tree.
 
 ## Requirements
 
@@ -79,6 +86,7 @@ uv run survey_index.py --path "C:\Projects\MyProject" --output txt
 | `--sort name\|date\|size` | `name` | Initial sort order |
 | `--output html\|txt` | `html` | Output format |
 | `--prefer-path FRAGMENT` | *(repeatable)* | Prepend a folder fragment to the path-priority list |
+| `--csv-under FRAGMENT` | `05-QC SURVEY DATA` | Only index CSVs whose path contains this folder fragment (`""` = anywhere) |
 | `--no-hash-dedup` | off | Disable file-level hash deduplication |
 | `--no-content-dedup` | off | Disable geometry-level deduplication (LandXML only) |
 

@@ -3,7 +3,13 @@ LandXML Survey Index — indexes geospatial survey files and writes a self-conta
 sortable/pageable HTML report (or plain text with --output txt).
 
 File types indexed: LandXML (.xml) surfaces & alignments, LAZ/LAS point clouds,
-GeoTIFF orthophotos, and TBC project files (.vce).
+GeoTIFF orthophotos, TBC project files (.vce), and CSV point files (.csv).
+
+CSV point files (--batch) are restricted to the "05-QC SURVEY DATA" folder by
+default (override with --csv-under FRAGMENT, or --csv-under "" for the whole
+tree). For each CSV the report shows the row/column count, spatial extent, and
+the distinct feature codes it contains — type a code into the tab's filter box
+to find every CSV that uses it.
 
 File discovery uses Everything (voidtools HTTP API) when available, and falls back
 to a directory walk automatically if Everything is not installed.
@@ -57,6 +63,9 @@ DEFAULT_PATH_PRIORITY = [
     "06-WORKING DATA",
 ]
 PAGE_SIZE = 50
+# CSV files are only indexed under this folder fragment (QC survey data holds the
+# coded point files). Override or clear with --csv-under.
+DEFAULT_CSV_UNDER = "05-QC SURVEY DATA"
 
 
 # ── data access ───────────────────────────────────────────────────────────────
@@ -97,6 +106,27 @@ def find_files(search_path: str, ext: str, everything_url: str = "http://localho
     return scan_files(search_path, ext)
 
 
+def surface_point_count(el, pfx: str) -> int:
+    """Vertex count for a Surface element.
+
+    Triangulated (TIN) surfaces store vertices as <P> elements — count those.
+    Surfaces defined only by <SourceData> (breaklines/boundaries/contours) have
+    no <P>/<F>; their geometry lives in <PntList3D> ("x y z …") and <PntList2D>
+    ("x y …") coordinate lists, so fall back to counting those vertices instead.
+    """
+    p = sum(1 for _ in el.iter(f"{pfx}P"))
+    if p:
+        return p
+    total = 0
+    for pl in el.iter(f"{pfx}PntList3D"):
+        if pl.text:
+            total += len(pl.text.split()) // 3
+    for pl in el.iter(f"{pfx}PntList2D"):
+        if pl.text:
+            total += len(pl.text.split()) // 2
+    return total
+
+
 def parse_file(
     filepath: str, tags: list[str]
 ) -> tuple[dict[str, list[tuple[str, int]]], str | None]:
@@ -117,7 +147,7 @@ def parse_file(
         for tag in tags:
             items = [
                 (el.get("name", "<unnamed>"),
-                 sum(1 for _ in el.iter(f"{pfx}P")),
+                 surface_point_count(el, pfx),
                  sum(1 for _ in el.iter(f"{pfx}F")),
                  float(el.get("length", 0) or 0),
                  float(el.get("staStart", 0) or 0))
@@ -271,6 +301,114 @@ def parse_tiff_header(filepath: str) -> dict | None:
         return {"width": width, "height": height, "gsd": gsd, "bbox": bbox}
     except Exception:
         return None
+
+
+# Header tokens that identify columns in a survey CSV.
+_CSV_EAST = {"easting", "east", "x", "e"}
+_CSV_NORTH = {"northing", "north", "y", "n"}
+_CSV_ELEV = {"elevation", "elev", "height", "ortho height", "ellipsoid height", "z"}
+_CSV_CODE = {"code", "codes", "feature", "featurecode", "feature code", "fc",
+             "desc", "description", "layer", "attribute", "point code", "pcode"}
+_CSV_MAX_CODES = 300  # cap distinct codes per file (safety on pathological data)
+
+_EMPTY_CSV = {"rows": 0, "cols": 0, "bbox": None, "zmin": None, "zmax": None, "codes": []}
+
+
+def parse_csv_meta(filepath: str) -> dict | None:
+    """Read a CSV survey/point file.
+
+    Returns {"rows": data-row count, "cols": column count, "bbox": (Emin, Nmin,
+    Emax, Nmax) or None, "zmin"/"zmax": elevation range or None, "codes": sorted
+    distinct feature codes}. Extent/elevation are computed only when a header row
+    names the coordinate columns (e.g. Northing/Easting/Elevation); feature codes
+    come from a header-named code/description column, or — for headerless PNEZD
+    exports — from the trailing (description) field, keeping only non-numeric
+    values. Returns None if the file can't be read. Streams line-by-line, so
+    memory stays flat on large exports.
+    """
+    import csv as _csv
+    try:
+        with open(filepath, "r", encoding="utf-8-sig", errors="replace", newline="") as f:
+            sample = f.read(16384)
+            if not sample.strip():
+                return dict(_EMPTY_CSV)
+            try:
+                delim = _csv.Sniffer().sniff(sample, delimiters=",;\t").delimiter
+            except _csv.Error:
+                delim = ","
+            try:
+                has_header = _csv.Sniffer().has_header(sample)
+            except _csv.Error:
+                has_header = False
+
+            f.seek(0)
+            reader = _csv.reader(f, delimiter=delim)
+            first = next(reader, None)
+            if first is None:
+                return dict(_EMPTY_CSV)
+            cols = len(first)
+
+            e_i = n_i = z_i = c_i = None
+            if has_header:
+                for i, raw in enumerate(first):
+                    key = raw.strip().lower()
+                    if   e_i is None and key in _CSV_EAST:  e_i = i
+                    elif n_i is None and key in _CSV_NORTH: n_i = i
+                    elif z_i is None and key in _CSV_ELEV:  z_i = i
+                    elif c_i is None and key in _CSV_CODE:  c_i = i
+            code_named = c_i is not None
+            if c_i is None and not has_header and cols:
+                c_i = cols - 1  # PNEZD convention: description is the trailing field
+
+            emin = nmin = zmin = float("inf")
+            emax = nmax = zmax = float("-inf")
+            have_en = e_i is not None and n_i is not None
+            codes: set[str] = set()
+
+            def consume(row: list[str]) -> None:
+                nonlocal emin, emax, nmin, nmax, zmin, zmax
+                if have_en and max(e_i, n_i) < len(row):
+                    try:
+                        e, n = float(row[e_i]), float(row[n_i])
+                        emin, emax = min(emin, e), max(emax, e)
+                        nmin, nmax = min(nmin, n), max(nmax, n)
+                    except ValueError:
+                        pass
+                if z_i is not None and z_i < len(row):
+                    try:
+                        z = float(row[z_i])
+                        zmin, zmax = min(zmin, z), max(zmax, z)
+                    except ValueError:
+                        pass
+                if c_i is not None and c_i < len(row) and len(codes) < _CSV_MAX_CODES:
+                    v = row[c_i].strip()
+                    if v and (code_named or not _is_number(v)):
+                        codes.add(v)
+
+            rows = 0
+            if not has_header:            # the row we consumed is data, not a header
+                rows = 1
+                consume(first)
+            for row in reader:
+                if not row:
+                    continue
+                rows += 1
+                consume(row)
+
+            bbox = (emin, nmin, emax, nmax) if have_en and emin != float("inf") else None
+            zr = (zmin, zmax) if z_i is not None and zmin != float("inf") else (None, None)
+            return {"rows": rows, "cols": cols, "bbox": bbox,
+                    "zmin": zr[0], "zmax": zr[1], "codes": sorted(codes)}
+    except Exception:
+        return None
+
+
+def _is_number(s: str) -> bool:
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
 
 
 # ── dedup helpers ─────────────────────────────────────────────────────────────
@@ -556,6 +694,58 @@ def build_vce_rows(results: list[dict], priority: list[str]) -> list[dict]:
     return rows
 
 
+def build_csv_rows(results: list[dict], priority: list[str]) -> list[dict]:
+    """Index CSV point files: row/column counts and spatial extent (when the header
+    names coordinate columns); hash-dedup by first 64 KB, path priority."""
+    hash_groups: dict[str, list] = defaultdict(list)
+    no_hash: list = []
+
+    for item in results:
+        path = str(Path(item["path"]) / item["name"])
+        try:
+            stat = Path(path).stat()
+            mtime, size = stat.st_mtime, stat.st_size
+        except OSError:
+            continue
+        local = is_local(path)
+        meta = parse_csv_meta(path) if local else None
+        if meta is None:
+            meta = dict(_EMPTY_CSV)
+        h = partial_hash(path) if local else None
+        entry = (path, meta["rows"], meta["cols"], meta["bbox"],
+                 meta["zmin"], meta["zmax"], meta["codes"], mtime, size)
+        if h:
+            hash_groups[h].append(entry)
+        else:
+            no_hash.append((*entry, 1))
+
+    files: list[tuple] = list(no_hash)
+    for group in hash_groups.values():
+        paths = [e[0] for e in group]
+        canon = best_path(paths, priority)
+        files.append((*next(e for e in group if e[0] == canon), len(group)))
+
+    rows = []
+    for path, nrows, cols, bbox, zmin, zmax, codes, mtime, size, copies in files:
+        rows.append({
+            "name":         Path(path).stem,
+            "rows":         nrows,
+            "cols":         cols,
+            "bbox":         bbox,
+            "zmin":         zmin,
+            "zmax":         zmax,
+            "codes":        codes,
+            "size":         size,
+            "copies":       copies,
+            "version_note": "",
+            "date":         fmt_date(mtime),
+            "filename":     Path(path).name,
+            "filepath":     path,
+            "folder_url":   folder_url(path),
+        })
+    return rows
+
+
 # ── HTML ──────────────────────────────────────────────────────────────────────
 
 _CSS = """\
@@ -612,19 +802,19 @@ tr:hover td{background:#f4f6ff}
 _JS = """\
 const PG=50,T={};
 function init(){
-  for(const id of['surfaces','alignments','pointclouds','orthophotos','tbcprojects']){
+  for(const id of['surfaces','alignments','pointclouds','orthophotos','tbcprojects','csvfiles']){
     const d=DATA[id];if(!d||!d.length)continue;
     T[id]={rows:d,fil:d,pg:0,col:null,dir:1};render(id);
   }
 }
 function filt(id){
   const q=document.getElementById('q-'+id).value.toLowerCase();
-  T[id].fil=q?T[id].rows.filter(r=>(r.n+' '+r.f).toLowerCase().includes(q)):T[id].rows;
+  T[id].fil=q?T[id].rows.filter(r=>(r.n+' '+r.f+' '+(r.cd||'')).toLowerCase().includes(q)):T[id].rows;
   T[id].pg=0;render(id);
 }
 function srt(id,c){const t=T[id];t.dir=t.col===c?-t.dir:1;t.col=c;t.pg=0;render(id);}
 function go(id,p){T[id].pg=p;render(id);}
-const KEYS={surfaces:['n','p','fa','c','d','f','av'],alignments:['n','len','sta','sta_e','c','d','f','av'],pointclouds:['n','p','den','sz','c','d','f','av'],orthophotos:['n','w','h','gsd','sz','c','d','f','av'],tbcprojects:['n','sz','c','d','f','av']};
+const KEYS={surfaces:['n','p','fa','c','d','f','av'],alignments:['n','len','sta','sta_e','c','d','f','av'],pointclouds:['n','p','den','sz','c','d','f','av'],orthophotos:['n','w','h','gsd','sz','c','d','f','av'],tbcprojects:['n','sz','c','d','f','av'],csvfiles:['n','rows','cols','ncd','sz','c','d','f','av']};
 function render(id){
   const t=T[id];let rows=[...t.fil];
   if(t.col!==null){
@@ -668,6 +858,10 @@ function mkrow(id,r){
     return`<tr><td>${nm}</td><td class="num">${fmtlen(r.len)}</td><td class="num">${fmtsta(r.sta)}</td><td class="num">${fmtsta(r.sta_e)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
   if(id==='tbcprojects')
     return`<tr><td>${nm}</td><td class="num">${fmtsz(r.sz)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
+  if(id==='csvfiles'){
+    const ptsCell=`<td class="num" title="${x(r.bb||'')}">${r.rows.toLocaleString()}</td>`;
+    const cdCell=`<td class="num" title="${x(r.cd||'')}">${r.ncd?r.ncd.toLocaleString():'-'}</td>`;
+    return`<tr><td>${nm}</td>${ptsCell}<td class="num">${r.cols?r.cols.toLocaleString():'-'}</td>${cdCell}<td class="num">${fmtsz(r.sz)}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;}
   return`<tr><td>${nm}</td><td class="num">${cp}</td><td>${r.d}</td>${fn}${av}${lk}</tr>`;
 }
 function mkpager(id,pg,pages,tot){
@@ -726,6 +920,7 @@ def render_html(
     pointclouds  = rows_by_tag.get("PointCloud", [])
     orthophotos  = rows_by_tag.get("Ortho", [])
     tbcprojects  = rows_by_tag.get("TBC", [])
+    csvfiles     = rows_by_tag.get("CSV", [])
 
     def av(r): return int(is_local(r["filepath"]))
     def ser_surface(r):
@@ -751,6 +946,20 @@ def render_html(
     def ser_vce(r):
         return {"n": r["name"], "sz": r["size"], "c": r["copies"],
                 "d": r["date"], "f": r["filename"], "fp": r["filepath"], "v": r["version_note"], "av": av(r)}
+    def ser_csv(r):
+        bb = r["bbox"]
+        zmin, zmax = r.get("zmin"), r.get("zmax")
+        parts = []
+        if bb:
+            parts.append(f"E: {bb[0]:,.1f}–{bb[2]:,.1f}")
+            parts.append(f"N: {bb[1]:,.1f}–{bb[3]:,.1f}")
+        if zmin is not None and zmax is not None:
+            parts.append(f"Z: {zmin:,.1f}–{zmax:,.1f}")
+        codes = r.get("codes") or []
+        return {"n": r["name"], "rows": r["rows"], "cols": r["cols"], "bb": "  ".join(parts),
+                "ncd": len(codes), "cd": ", ".join(codes),
+                "sz": r["size"], "c": r["copies"], "d": r["date"], "f": r["filename"],
+                "fp": r["filepath"], "v": r["version_note"], "av": av(r)}
 
     data_js = json.dumps({
         "surfaces":    [ser_surface(r)    for r in surfaces],
@@ -758,6 +967,7 @@ def render_html(
         "pointclouds": [ser_pointcloud(r) for r in pointclouds],
         "orthophotos": [ser_ortho(r)      for r in orthophotos],
         "tbcprojects": [ser_vce(r)        for r in tbcprojects],
+        "csvfiles":    [ser_csv(r)        for r in csvfiles],
     }, ensure_ascii=False, separators=(",", ":"))
 
     tabs = []
@@ -771,6 +981,8 @@ def render_html(
         tabs.append(("orthophotos", f"Orthophotos ({len(orthophotos):,})"))
     if tbcprojects:
         tabs.append(("tbcprojects", f"TBC Projects ({len(tbcprojects):,})"))
+    if csvfiles:
+        tabs.append(("csvfiles", f"CSV Files ({len(csvfiles):,})"))
 
     tab_buttons = "".join(
         f'<button id="btn-{tid}" class="tab-btn{" active" if i == 0 else ""}"'
@@ -784,6 +996,7 @@ def render_html(
         "pointclouds": ["Name", "Points", ("Density", "Points per square metre (from LAS bounding box)"), "Size", "Copies", "Date", "File", "Avail", "Path"],
         "orthophotos": ["Name", "Width", "Height", ("GSD", "Ground Sample Distance — pixel size at ground level"), "Size", "Copies", "Date", "File", "Avail", "Path"],
         "tbcprojects":  ["Name", "Size", "Copies", "Date", "File", "Avail", "Path"],
+        "csvfiles":     ["Name", ("Points", "Data rows (excludes header)"), ("Cols", "Number of columns"), ("Codes", "Distinct feature codes — hover to list; type a code in the filter box to find matching files"), "Size", "Copies", "Date", "File", "Avail", "Path"],
     }
 
     panels = "".join(
@@ -797,6 +1010,7 @@ def render_html(
         f"{len(pointclouds):,} point clouds" if pointclouds else "",
         f"{len(orthophotos):,} orthophotos"  if orthophotos else "",
         f"{len(tbcprojects):,} TBC projects" if tbcprojects else "",
+        f"{len(csvfiles):,} CSV files"       if csvfiles    else "",
     ]))
 
     logo_tag = ""
@@ -854,7 +1068,7 @@ def render_txt(rows_by_tag: dict[str, list[dict]], search_path: str) -> str:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Index LandXML, LAZ, GeoTIFF, and TBC survey files in a directory tree.",
+        description="Index LandXML, LAZ, GeoTIFF, TBC, and CSV survey files in a directory tree.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("--path", required=True, metavar="DIR",
@@ -878,6 +1092,10 @@ def main() -> None:
     parser.add_argument("--no-content-dedup", action="store_true")
     parser.add_argument("--prefer-path", metavar="FRAGMENT", action="append", default=[],
                         help="Prepend folder fragment to priority list (repeatable)")
+    parser.add_argument("--csv-under", default=DEFAULT_CSV_UNDER, metavar="FRAGMENT",
+                        help="Only index CSV files whose path contains this folder "
+                             f"fragment (default: '{DEFAULT_CSV_UNDER}'; pass \"\" to "
+                             "index CSVs anywhere)")
     args = parser.parse_args()
 
     search_path = args.path
@@ -934,6 +1152,22 @@ def main() -> None:
         vce_rows = sort_rows(vce_rows, args.sort)
         rows_by_tag["TBC"] = vce_rows
         print(f"  TBC Projects: {len(vce_rows)} unique entries")
+
+        print(f"\nSearching for CSV files…")
+        csv_results = find_files(search_path, "csv", eu)
+        if args.csv_under:
+            frag = args.csv_under.lower()
+            kept = [it for it in csv_results
+                    if frag in str(Path(it["path"]) / it["name"]).lower()]
+            print(f"Found {len(csv_results)} CSV file(s); {len(kept)} under "
+                  f"'{args.csv_under}' — reading rows…\n")
+            csv_results = kept
+        else:
+            print(f"Found {len(csv_results)} CSV file(s) — reading rows…\n")
+        csv_rows = build_csv_rows(csv_results, priority)
+        csv_rows = sort_rows(csv_rows, args.sort)
+        rows_by_tag["CSV"] = csv_rows
+        print(f"  CSV Files: {len(csv_rows)} unique entries")
 
     generated_at = datetime.now().strftime("%Y-%m-%d %H:%M")
 
