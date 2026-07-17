@@ -312,8 +312,12 @@ _CSV_CODE = {"code", "codes", "feature", "featurecode", "feature code", "featcod
              "attribute", "attr", "note", "notes", "remark", "remarks", "comment",
              "comments", "point code", "pointcode", "pcode", "pt code", "ptcode"}
 _CSV_MAX_CODES = 300  # cap distinct codes per file (safety on pathological data)
+_CSV_COL_CARD = 60    # a text column with more distinct values than this is treated
+                      # as free-text / point IDs and excluded from the search index
+_CSV_MAX_TERMS = 400  # overall cap on searchable text tokens per file
 
-_EMPTY_CSV = {"rows": 0, "cols": 0, "bbox": None, "zmin": None, "zmax": None, "codes": []}
+_EMPTY_CSV = {"rows": 0, "cols": 0, "bbox": None, "zmin": None, "zmax": None,
+              "codes": [], "terms": []}
 
 
 def parse_csv_meta(filepath: str) -> dict | None:
@@ -321,12 +325,16 @@ def parse_csv_meta(filepath: str) -> dict | None:
 
     Returns {"rows": data-row count, "cols": column count, "bbox": (Emin, Nmin,
     Emax, Nmax) or None, "zmin"/"zmax": elevation range or None, "codes": sorted
-    distinct feature codes}. Extent/elevation are computed only when a header row
-    names the coordinate columns (e.g. Northing/Easting/Elevation). Feature codes
-    come from a header-named code column when present; otherwise from the trailing
-    (description) field, as in a headerless PNEZD export — keeping only non-numeric
-    values so coordinate columns are never mistaken for codes. Returns None if the
-    file can't be read. Streams line-by-line, so memory stays flat on large exports.
+    distinct feature codes, "terms": sorted distinct text values across all
+    low-cardinality columns (the full-content search index)}. Extent/elevation are
+    computed only when a header row names the coordinate columns (e.g. Northing/
+    Easting/Elevation). Feature codes come from a header-named code column when
+    present; otherwise from the trailing (description) field, as in a headerless
+    PNEZD export — keeping only non-numeric values so coordinate columns are never
+    mistaken for codes. "terms" makes the report's filter box match on file content
+    (codes, descriptions, layers) rather than filename alone; high-cardinality
+    columns like point IDs are excluded. Returns None if the file can't be read.
+    Streams line-by-line, so memory stays flat on large exports.
     """
     import csv as _csv
     try:
@@ -375,6 +383,11 @@ def parse_csv_meta(filepath: str) -> dict | None:
             emax = nmax = zmax = float("-inf")
             have_en = e_i is not None and n_i is not None
             codes: set[str] = set()
+            # Distinct text values per column, for full-content search. Columns that
+            # exceed _CSV_COL_CARD distinct values (point IDs, free-text notes) are
+            # dropped — they bloat the index and aren't useful filter terms.
+            col_text: dict[int, set[str]] = {}
+            dropped: set[int] = set()
 
             def consume(row: list[str]) -> None:
                 nonlocal emin, emax, nmin, nmax, zmin, zmax
@@ -397,6 +410,19 @@ def parse_csv_meta(filepath: str) -> dict | None:
                     # fallback keeps only non-numeric text (so Z values aren't codes).
                     if v and (code_named or not _is_number(v)):
                         codes.add(v)
+                for i, cell in enumerate(row):
+                    if i in dropped:
+                        continue
+                    v = cell.strip()
+                    if not v or _is_number(v):
+                        continue
+                    bucket = col_text.setdefault(i, set())
+                    if v not in bucket:
+                        if len(bucket) >= _CSV_COL_CARD:
+                            dropped.add(i)      # high-cardinality column → drop it
+                            col_text[i] = set()  # free the memory
+                        else:
+                            bucket.add(v)
 
             rows = 0
             if not has_header:            # the row we consumed is data, not a header
@@ -413,8 +439,14 @@ def parse_csv_meta(filepath: str) -> dict | None:
 
             bbox = (emin, nmin, emax, nmax) if have_en and emin != float("inf") else None
             zr = (zmin, zmax) if z_i is not None and zmin != float("inf") else (None, None)
+            terms: set[str] = set()
+            for i, bucket in col_text.items():
+                if i in dropped:
+                    continue
+                terms |= bucket
             return {"rows": rows, "cols": cols, "bbox": bbox,
-                    "zmin": zr[0], "zmax": zr[1], "codes": sorted(codes)}
+                    "zmin": zr[0], "zmax": zr[1], "codes": sorted(codes),
+                    "terms": sorted(terms)[:_CSV_MAX_TERMS]}
     except Exception:
         return None
 
@@ -734,7 +766,7 @@ def build_csv_rows(results: list[dict], priority: list[str]) -> list[dict]:
             meta = dict(_EMPTY_CSV)
         h = partial_hash(path) if local else None
         entry = (path, meta["rows"], meta["cols"], meta["bbox"],
-                 meta["zmin"], meta["zmax"], meta["codes"], mtime, size)
+                 meta["zmin"], meta["zmax"], meta["codes"], meta["terms"], mtime, size)
         if h:
             hash_groups[h].append(entry)
         else:
@@ -747,7 +779,7 @@ def build_csv_rows(results: list[dict], priority: list[str]) -> list[dict]:
         files.append((*next(e for e in group if e[0] == canon), len(group)))
 
     rows = []
-    for path, nrows, cols, bbox, zmin, zmax, codes, mtime, size, copies in files:
+    for path, nrows, cols, bbox, zmin, zmax, codes, terms, mtime, size, copies in files:
         rows.append({
             "name":         Path(path).stem,
             "rows":         nrows,
@@ -756,6 +788,7 @@ def build_csv_rows(results: list[dict], priority: list[str]) -> list[dict]:
             "zmin":         zmin,
             "zmax":         zmax,
             "codes":        codes,
+            "terms":        terms,
             "size":         size,
             "copies":       copies,
             "version_note": "",
@@ -830,7 +863,7 @@ function init(){
 }
 function filt(id){
   const q=document.getElementById('q-'+id).value.toLowerCase();
-  T[id].fil=q?T[id].rows.filter(r=>(r.n+' '+r.f+' '+(r.cd||'')).toLowerCase().includes(q)):T[id].rows;
+  T[id].fil=q?T[id].rows.filter(r=>(r.n+' '+r.f+' '+(r.cd||'')+' '+(r.sx||'')).toLowerCase().includes(q)):T[id].rows;
   T[id].pg=0;render(id);
 }
 function srt(id,c){const t=T[id];t.dir=t.col===c?-t.dir:1;t.col=c;t.pg=0;render(id);}
@@ -977,8 +1010,11 @@ def render_html(
         if zmin is not None and zmax is not None:
             parts.append(f"Z: {zmin:,.1f}–{zmax:,.1f}")
         codes = r.get("codes") or []
+        # sx: extra searchable text (all low-cardinality columns) beyond the codes
+        # already carried in cd — keeps the filter matching file content, not just names.
+        extra = [t for t in (r.get("terms") or []) if t not in set(codes)]
         return {"n": r["name"], "rows": r["rows"], "cols": r["cols"], "bb": "  ".join(parts),
-                "ncd": len(codes), "cd": ", ".join(codes),
+                "ncd": len(codes), "cd": ", ".join(codes), "sx": " ".join(extra),
                 "sz": r["size"], "c": r["copies"], "d": r["date"], "f": r["filename"],
                 "fp": r["filepath"], "v": r["version_note"], "av": av(r)}
 
