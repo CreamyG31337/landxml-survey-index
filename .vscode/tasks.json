@@ -1,0 +1,12 @@
+{
+  "version": "2.0.0",
+  "tasks": [{
+    "label": "Graphify: watch project",
+    "type": "shell",
+    "command": "C:\\Users\\lcolton1\\AppData\\Roaming\\uv\\tools\\graphifyy\\Scripts\\python.exe",
+    "args": ["-m", "graphify", "watch", "C:\\Projects\\file-finder"],
+    "isBackground": true,
+    "problemMatcher": [],
+    "runOptions": {"runOn": "folderOpen"}
+  }]
+}

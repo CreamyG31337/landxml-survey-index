@@ -1,0 +1,32 @@
+{
+  ".claude/settings.json": {
+    "mtime": 1787682757.4361777,
+    "seen": 1787682855.245264,
+    "ast_hash": "1a94fadfe609b886d406c03baed07816",
+    "semantic_hash": "1a94fadfe609b886d406c03baed07816"
+  },
+  ".mcp.json": {
+    "mtime": 1787682776.9191937,
+    "seen": 1787682855.2452686,
+    "ast_hash": "bd7e2514dd34f831eed98439d32e3889",
+    "semantic_hash": "bd7e2514dd34f831eed98439d32e3889"
+  },
+  ".vscode/tasks.json": {
+    "mtime": 1787682844.9211557,
+    "seen": 1787682855.2452705,
+    "ast_hash": "a6b216e9455c63b84abe73abff0baa0f",
+    "semantic_hash": "a6b216e9455c63b84abe73abff0baa0f"
+  },
+  "open_folder.ps1": {
+    "mtime": 1778089801.7710958,
+    "seen": 1787682855.2452714,
+    "ast_hash": "254c5f57ef9ffd75018fc5af7e6f3ce8",
+    "semantic_hash": "254c5f57ef9ffd75018fc5af7e6f3ce8"
+  },
+  "survey_index.py": {
+    "mtime": 1784314190.5234091,
+    "seen": 1787682855.245274,
+    "ast_hash": "af781c9b5e729bb6e4292bc095e2e143",
+    "semantic_hash": "af781c9b5e729bb6e4292bc095e2e143"
+  }
+}

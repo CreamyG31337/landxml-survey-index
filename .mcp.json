@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "graphify": {
+      "command": "C:\\Users\\lcolton1\\AppData\\Roaming\\uv\\tools\\graphifyy\\Scripts\\python.exe",
+      "args": ["-m", "graphify.serve", "C:\\Projects\\file-finder\\graphify-out\\graph.json"]
+    }
+  }
+}
