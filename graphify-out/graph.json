@@ -9,35 +9,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "Community 0",
+      "community_name": "find_files",
       "file_type": "code",
       "norm_label": "find_files()",
       "source_file": "survey_index.py",
-      "source_location": "L94"
-    },
-    {
-      "id": "survey_index_main",
-      "label": "main()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "code",
-      "norm_label": "main()",
-      "source_file": "survey_index.py",
-      "source_location": "L1129"
-    },
-    {
-      "id": "survey_index_panel",
-      "label": "_panel()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "code",
-      "norm_label": "_panel()",
-      "source_file": "survey_index.py",
-      "source_location": "L944"
+      "source_location": "L102"
     },
     {
       "id": "survey_index_query_everything",
@@ -45,35 +21,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "Community 0",
+      "community_name": "find_files",
       "file_type": "code",
       "norm_label": "query_everything()",
       "source_file": "survey_index.py",
       "source_location": "L73"
-    },
-    {
-      "id": "survey_index_render_html",
-      "label": "render_html()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "code",
-      "norm_label": "render_html()",
-      "source_file": "survey_index.py",
-      "source_location": "L968"
-    },
-    {
-      "id": "survey_index_render_txt",
-      "label": "render_txt()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "code",
-      "norm_label": "render_txt()",
-      "source_file": "survey_index.py",
-      "source_location": "L1112"
     },
     {
       "id": "survey_index_scan_files",
@@ -81,23 +33,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 0,
-      "community_name": "Community 0",
+      "community_name": "find_files",
       "file_type": "code",
       "norm_label": "scan_files()",
       "source_file": "survey_index.py",
-      "source_location": "L81"
-    },
-    {
-      "id": "survey_index_sort_rows",
-      "label": "sort_rows()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "code",
-      "norm_label": "sort_rows()",
-      "source_file": "survey_index.py",
-      "source_location": "L590"
+      "source_location": "L89"
     },
     {
       "id": "survey_index_best_path",
@@ -105,11 +45,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "best_path()",
       "source_file": "survey_index.py",
-      "source_location": "L477"
+      "source_location": "L485"
     },
     {
       "id": "survey_index_build_csv_rows",
@@ -117,11 +57,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "build_csv_rows()",
       "source_file": "survey_index.py",
-      "source_location": "L750"
+      "source_location": "L758"
+    },
+    {
+      "id": "survey_index_build_laz_rows",
+      "label": "build_laz_rows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "code",
+      "norm_label": "build_laz_rows()",
+      "source_file": "survey_index.py",
+      "source_location": "L606"
+    },
+    {
+      "id": "survey_index_build_ortho_rows",
+      "label": "build_ortho_rows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "code",
+      "norm_label": "build_ortho_rows()",
+      "source_file": "survey_index.py",
+      "source_location": "L654"
     },
     {
       "id": "survey_index_build_rows",
@@ -129,11 +93,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "build_rows()",
       "source_file": "survey_index.py",
-      "source_location": "L494"
+      "source_location": "L502"
     },
     {
       "id": "survey_index_build_vce_rows",
@@ -141,11 +105,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "build_vce_rows()",
       "source_file": "survey_index.py",
-      "source_location": "L709"
+      "source_location": "L717"
     },
     {
       "id": "survey_index_fmt_date",
@@ -153,11 +117,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "fmt_date()",
       "source_file": "survey_index.py",
-      "source_location": "L170"
+      "source_location": "L178"
     },
     {
       "id": "survey_index_folder_url",
@@ -165,11 +129,35 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "folder_url()",
       "source_file": "survey_index.py",
-      "source_location": "L481"
+      "source_location": "L489"
+    },
+    {
+      "id": "survey_index_parse_laz_header",
+      "label": "parse_laz_header()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "code",
+      "norm_label": "parse_laz_header()",
+      "source_file": "survey_index.py",
+      "source_location": "L192"
+    },
+    {
+      "id": "survey_index_partial_hash",
+      "label": "partial_hash()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "code",
+      "norm_label": "partial_hash()",
+      "source_file": "survey_index.py",
+      "source_location": "L216"
     },
     {
       "id": "survey_index_priority_score",
@@ -177,23 +165,179 @@
       "_callable": true,
       "_origin": "ast",
       "community": 1,
-      "community_name": "Community 1",
+      "community_name": "build_laz_rows",
       "file_type": "code",
       "norm_label": "priority_score()",
       "source_file": "survey_index.py",
-      "source_location": "L469"
+      "source_location": "L477"
+    },
+    {
+      "id": "survey_index_panel",
+      "label": "_panel()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "_panel()",
+      "source_file": "survey_index.py",
+      "source_location": "L952"
+    },
+    {
+      "id": "survey_index_panel_th",
+      "label": "_th()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "_th()",
+      "source_file": "survey_index.py",
+      "source_location": "L953"
+    },
+    {
+      "id": "survey_index_render_html",
+      "label": "render_html()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "render_html()",
+      "source_file": "survey_index.py",
+      "source_location": "L976"
+    },
+    {
+      "id": "survey_index_render_html_av",
+      "label": "av()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "av()",
+      "source_file": "survey_index.py",
+      "source_location": "L990"
+    },
+    {
+      "id": "survey_index_render_html_ser_alignment",
+      "label": "ser_alignment()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_alignment()",
+      "source_file": "survey_index.py",
+      "source_location": "L994"
+    },
+    {
+      "id": "survey_index_render_html_ser_csv",
+      "label": "ser_csv()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_csv()",
+      "source_file": "survey_index.py",
+      "source_location": "L1014"
+    },
+    {
+      "id": "survey_index_render_html_ser_ortho",
+      "label": "ser_ortho()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_ortho()",
+      "source_file": "survey_index.py",
+      "source_location": "L1004"
+    },
+    {
+      "id": "survey_index_render_html_ser_pointcloud",
+      "label": "ser_pointcloud()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_pointcloud()",
+      "source_file": "survey_index.py",
+      "source_location": "L1001"
+    },
+    {
+      "id": "survey_index_render_html_ser_surface",
+      "label": "ser_surface()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_surface()",
+      "source_file": "survey_index.py",
+      "source_location": "L991"
+    },
+    {
+      "id": "survey_index_render_html_ser_vce",
+      "label": "ser_vce()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "ser_vce()",
+      "source_file": "survey_index.py",
+      "source_location": "L1011"
     },
     {
       "id": "survey_index_file_mtime",
       "label": "file_mtime()",
       "_callable": true,
       "_origin": "ast",
-      "community": 2,
-      "community_name": "Community 2",
+      "community": 12,
+      "community_name": "main",
       "file_type": "code",
       "norm_label": "file_mtime()",
       "source_file": "survey_index.py",
-      "source_location": "L163"
+      "source_location": "L171"
+    },
+    {
+      "id": "survey_index_main",
+      "label": "main()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "main",
+      "file_type": "code",
+      "norm_label": "main()",
+      "source_file": "survey_index.py",
+      "source_location": "L1137"
+    },
+    {
+      "id": "survey_index_render_txt",
+      "label": "render_txt()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "main",
+      "file_type": "code",
+      "norm_label": "render_txt()",
+      "source_file": "survey_index.py",
+      "source_location": "L1120"
+    },
+    {
+      "id": "survey_index_sort_rows",
+      "label": "sort_rows()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 12,
+      "community_name": "main",
+      "file_type": "code",
+      "norm_label": "sort_rows()",
+      "source_file": "survey_index.py",
+      "source_location": "L598"
     },
     {
       "id": "survey_index_is_local",
@@ -201,11 +345,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "Community 2",
+      "community_name": "is_local",
       "file_type": "code",
       "norm_label": "is_local()",
       "source_file": "survey_index.py",
-      "source_location": "L176"
+      "source_location": "L184"
     },
     {
       "id": "survey_index_parse_file",
@@ -213,11 +357,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "Community 2",
+      "community_name": "is_local",
       "file_type": "code",
       "norm_label": "parse_file()",
       "source_file": "survey_index.py",
-      "source_location": "L130"
+      "source_location": "L138"
     },
     {
       "id": "survey_index_surface_point_count",
@@ -225,47 +369,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 2,
-      "community_name": "Community 2",
+      "community_name": "is_local",
       "file_type": "code",
       "norm_label": "surface_point_count()",
       "source_file": "survey_index.py",
-      "source_location": "L109"
-    },
-    {
-      "id": "survey_index_build_laz_rows",
-      "label": "build_laz_rows()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "code",
-      "norm_label": "build_laz_rows()",
-      "source_file": "survey_index.py",
-      "source_location": "L598"
-    },
-    {
-      "id": "survey_index_parse_laz_header",
-      "label": "parse_laz_header()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "code",
-      "norm_label": "parse_laz_header()",
-      "source_file": "survey_index.py",
-      "source_location": "L184"
-    },
-    {
-      "id": "survey_index_partial_hash",
-      "label": "partial_hash()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "code",
-      "norm_label": "partial_hash()",
-      "source_file": "survey_index.py",
-      "source_location": "L208"
+      "source_location": "L117"
     },
     {
       "id": "survey_index_is_number",
@@ -273,11 +381,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "Community 4",
+      "community_name": "parse_csv_meta",
       "file_type": "code",
       "norm_label": "_is_number()",
       "source_file": "survey_index.py",
-      "source_location": "L454"
+      "source_location": "L462"
     },
     {
       "id": "survey_index_numcount",
@@ -285,11 +393,11 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "Community 4",
+      "community_name": "parse_csv_meta",
       "file_type": "code",
       "norm_label": "_numcount()",
       "source_file": "survey_index.py",
-      "source_location": "L462"
+      "source_location": "L470"
     },
     {
       "id": "survey_index_parse_csv_meta",
@@ -297,23 +405,23 @@
       "_callable": true,
       "_origin": "ast",
       "community": 4,
-      "community_name": "Community 4",
+      "community_name": "parse_csv_meta",
       "file_type": "code",
       "norm_label": "parse_csv_meta()",
       "source_file": "survey_index.py",
-      "source_location": "L323"
+      "source_location": "L331"
     },
     {
-      "id": "survey_index_build_ortho_rows",
-      "label": "build_ortho_rows()",
+      "id": "survey_index_parse_csv_meta_consume",
+      "label": "consume()",
       "_callable": true,
       "_origin": "ast",
-      "community": 5,
-      "community_name": "Community 5",
+      "community": 4,
+      "community_name": "parse_csv_meta",
       "file_type": "code",
-      "norm_label": "build_ortho_rows()",
+      "norm_label": "consume()",
       "source_file": "survey_index.py",
-      "source_location": "L646"
+      "source_location": "L400"
     },
     {
       "id": "survey_index_parse_tiff_header",
@@ -321,18 +429,207 @@
       "_callable": true,
       "_origin": "ast",
       "community": 5,
-      "community_name": "Community 5",
+      "community_name": "parse_tiff_header",
       "file_type": "code",
       "norm_label": "parse_tiff_header()",
       "source_file": "survey_index.py",
+      "source_location": "L225"
+    },
+    {
+      "id": "survey_index_rationale_103",
+      "label": "Query Everything if available; fall back to os.walk silently after first\u2026",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "find_files",
+      "file_type": "rationale",
+      "norm_label": "query everything if available; fall back to os.walk silently after first...",
+      "source_file": "survey_index.py",
+      "source_location": "L103"
+    },
+    {
+      "id": "survey_index_rationale_74",
+      "label": "Return every match, paging through the API so large result sets aren't\u2026",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "find_files",
+      "file_type": "rationale",
+      "norm_label": "return every match, paging through the api so large result sets aren't...",
+      "source_file": "survey_index.py",
+      "source_location": "L74"
+    },
+    {
+      "id": "survey_index_rationale_90",
+      "label": "Walk directory tree; return [{path, name}] matching Everything's format.",
+      "_origin": "ast",
+      "community": 0,
+      "community_name": "find_files",
+      "file_type": "rationale",
+      "norm_label": "walk directory tree; return [{path, name}] matching everything's format.",
+      "source_file": "survey_index.py",
+      "source_location": "L90"
+    },
+    {
+      "id": "survey_index_rationale_193",
+      "label": "Read LAS/LAZ header; return {\"pts\": N, \"density\": pts/m\u00b2} or None.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "read las/laz header; return {\"pts\": n, \"density\": pts/m2} or none.",
+      "source_file": "survey_index.py",
+      "source_location": "L193"
+    },
+    {
+      "id": "survey_index_rationale_217",
+      "label": "MD5 of first nbytes \u2014 fast proxy for large binary files.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "md5 of first nbytes \u2014 fast proxy for large binary files.",
+      "source_file": "survey_index.py",
       "source_location": "L217"
+    },
+    {
+      "id": "survey_index_rationale_490",
+      "label": "Convert a Windows path to a file:// URI for the containing folder.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "convert a windows path to a file:// uri for the containing folder.",
+      "source_file": "survey_index.py",
+      "source_location": "L490"
+    },
+    {
+      "id": "survey_index_rationale_509",
+      "label": "Full dedup pipeline for one element type \u2192 list of table-row dicts.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "full dedup pipeline for one element type \u2192 list of table-row dicts.",
+      "source_file": "survey_index.py",
+      "source_location": "L509"
+    },
+    {
+      "id": "survey_index_rationale_607",
+      "label": "Index LAZ/LAS files: hash-dedup by first 64 KB, path priority.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "index laz/las files: hash-dedup by first 64 kb, path priority.",
+      "source_file": "survey_index.py",
+      "source_location": "L607"
+    },
+    {
+      "id": "survey_index_rationale_655",
+      "label": "Index TIFF/GeoTIFF orthophotos: hash-dedup by first 64 KB, path priority.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "index tiff/geotiff orthophotos: hash-dedup by first 64 kb, path priority.",
+      "source_file": "survey_index.py",
+      "source_location": "L655"
+    },
+    {
+      "id": "survey_index_rationale_718",
+      "label": "Index TBC project files (.vce): hash-dedup by first 64 KB, path priority.",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "index tbc project files (.vce): hash-dedup by first 64 kb, path priority.",
+      "source_file": "survey_index.py",
+      "source_location": "L718"
+    },
+    {
+      "id": "survey_index_rationale_759",
+      "label": "Index CSV point files: row/column counts and spatial extent (when the header\u2026",
+      "_origin": "ast",
+      "community": 1,
+      "community_name": "build_laz_rows",
+      "file_type": "rationale",
+      "norm_label": "index csv point files: row/column counts and spatial extent (when the header...",
+      "source_file": "survey_index.py",
+      "source_location": "L759"
+    },
+    {
+      "id": "github_copilot_instructions",
+      "label": "copilot-instructions.md",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "copilot-instructions.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "copilot-instructions.md",
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "github_copilot_instructions_graphify",
+      "label": "graphify",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "copilot-instructions.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "graphify",
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "path",
+      "label": "Path",
+      "_origin": "ast",
+      "community": 11,
+      "community_name": "render_html",
+      "file_type": "code",
+      "norm_label": "path",
+      "source_file": "",
+      "source_location": ""
+    },
+    {
+      "id": "survey_index_rationale_118",
+      "label": "Vertex count for a Surface element. Triangulated (TIN) surfaces store vertices\u2026",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "is_local",
+      "file_type": "rationale",
+      "norm_label": "vertex count for a surface element. triangulated (tin) surfaces store vertices...",
+      "source_file": "survey_index.py",
+      "source_location": "L118"
+    },
+    {
+      "id": "survey_index_rationale_141",
+      "label": "Read file once; return ({tag: [(name, pts, faces)]}, md5). Non-LandXML \u2192 ({},\u2026",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "is_local",
+      "file_type": "rationale",
+      "norm_label": "read file once; return ({tag: [(name, pts, faces)]}, md5). non-landxml \u2192 ({},...",
+      "source_file": "survey_index.py",
+      "source_location": "L141"
+    },
+    {
+      "id": "survey_index_rationale_185",
+      "label": "Return False if this is an OneDrive cloud-only file (not downloaded locally).",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "is_local",
+      "file_type": "rationale",
+      "norm_label": "return false if this is an onedrive cloud-only file (not downloaded locally).",
+      "source_file": "survey_index.py",
+      "source_location": "L185"
     },
     {
       "id": "survey_index",
       "label": "survey_index.py",
       "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
+      "community": 3,
+      "community_name": "survey_index.py",
       "file_type": "code",
       "norm_label": "survey_index.py",
       "source_file": "survey_index.py",
@@ -342,206 +639,52 @@
       "id": "survey_index_rationale_1",
       "label": "LandXML Survey Index \u2014 indexes geospatial survey files and writes a self-\u2026",
       "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
+      "community": 3,
+      "community_name": "survey_index.py",
       "file_type": "rationale",
       "norm_label": "landxml survey index \u2014 indexes geospatial survey files and writes a self-...",
       "source_file": "survey_index.py",
       "source_location": "L1"
     },
     {
-      "id": "survey_index_rationale_82",
-      "label": "Walk directory tree; return [{path, name}] matching Everything's format.",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "rationale",
-      "norm_label": "walk directory tree; return [{path, name}] matching everything's format.",
-      "source_file": "survey_index.py",
-      "source_location": "L82"
-    },
-    {
-      "id": "survey_index_rationale_95",
-      "label": "Query Everything if available; fall back to os.walk silently after first\u2026",
-      "_origin": "ast",
-      "community": 0,
-      "community_name": "Community 0",
-      "file_type": "rationale",
-      "norm_label": "query everything if available; fall back to os.walk silently after first...",
-      "source_file": "survey_index.py",
-      "source_location": "L95"
-    },
-    {
-      "id": "survey_index_rationale_482",
-      "label": "Convert a Windows path to a file:// URI for the containing folder.",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Community 1",
-      "file_type": "rationale",
-      "norm_label": "convert a windows path to a file:// uri for the containing folder.",
-      "source_file": "survey_index.py",
-      "source_location": "L482"
-    },
-    {
-      "id": "survey_index_rationale_501",
-      "label": "Full dedup pipeline for one element type \u2192 list of table-row dicts.",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Community 1",
-      "file_type": "rationale",
-      "norm_label": "full dedup pipeline for one element type \u2192 list of table-row dicts.",
-      "source_file": "survey_index.py",
-      "source_location": "L501"
-    },
-    {
-      "id": "survey_index_rationale_710",
-      "label": "Index TBC project files (.vce): hash-dedup by first 64 KB, path priority.",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Community 1",
-      "file_type": "rationale",
-      "norm_label": "index tbc project files (.vce): hash-dedup by first 64 kb, path priority.",
-      "source_file": "survey_index.py",
-      "source_location": "L710"
-    },
-    {
-      "id": "survey_index_rationale_751",
-      "label": "Index CSV point files: row/column counts and spatial extent (when the header\u2026",
-      "_origin": "ast",
-      "community": 1,
-      "community_name": "Community 1",
-      "file_type": "rationale",
-      "norm_label": "index csv point files: row/column counts and spatial extent (when the header...",
-      "source_file": "survey_index.py",
-      "source_location": "L751"
-    },
-    {
-      "id": "path",
-      "label": "Path",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Community 2",
-      "file_type": "code",
-      "norm_label": "path",
-      "source_file": "",
-      "source_location": ""
-    },
-    {
-      "id": "survey_index_rationale_110",
-      "label": "Vertex count for a Surface element. Triangulated (TIN) surfaces store vertices\u2026",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Community 2",
-      "file_type": "rationale",
-      "norm_label": "vertex count for a surface element. triangulated (tin) surfaces store vertices...",
-      "source_file": "survey_index.py",
-      "source_location": "L110"
-    },
-    {
-      "id": "survey_index_rationale_133",
-      "label": "Read file once; return ({tag: [(name, pts, faces)]}, md5). Non-LandXML \u2192 ({},\u2026",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Community 2",
-      "file_type": "rationale",
-      "norm_label": "read file once; return ({tag: [(name, pts, faces)]}, md5). non-landxml \u2192 ({},...",
-      "source_file": "survey_index.py",
-      "source_location": "L133"
-    },
-    {
-      "id": "survey_index_rationale_177",
-      "label": "Return False if this is an OneDrive cloud-only file (not downloaded locally).",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "Community 2",
-      "file_type": "rationale",
-      "norm_label": "return false if this is an onedrive cloud-only file (not downloaded locally).",
-      "source_file": "survey_index.py",
-      "source_location": "L177"
-    },
-    {
-      "id": "survey_index_rationale_185",
-      "label": "Read LAS/LAZ header; return {\"pts\": N, \"density\": pts/m\u00b2} or None.",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "rationale",
-      "norm_label": "read las/laz header; return {\"pts\": n, \"density\": pts/m2} or none.",
-      "source_file": "survey_index.py",
-      "source_location": "L185"
-    },
-    {
-      "id": "survey_index_rationale_209",
-      "label": "MD5 of first nbytes \u2014 fast proxy for large binary files.",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "rationale",
-      "norm_label": "md5 of first nbytes \u2014 fast proxy for large binary files.",
-      "source_file": "survey_index.py",
-      "source_location": "L209"
-    },
-    {
-      "id": "survey_index_rationale_599",
-      "label": "Index LAZ/LAS files: hash-dedup by first 64 KB, path priority.",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "Community 3",
-      "file_type": "rationale",
-      "norm_label": "index laz/las files: hash-dedup by first 64 kb, path priority.",
-      "source_file": "survey_index.py",
-      "source_location": "L599"
-    },
-    {
-      "id": "survey_index_rationale_324",
+      "id": "survey_index_rationale_332",
       "label": "Read a CSV survey/point file. Returns {\"rows\": data-row count, \"cols\": column\u2026",
       "_origin": "ast",
       "community": 4,
-      "community_name": "Community 4",
+      "community_name": "parse_csv_meta",
       "file_type": "rationale",
       "norm_label": "read a csv survey/point file. returns {\"rows\": data-row count, \"cols\": column...",
       "source_file": "survey_index.py",
-      "source_location": "L324"
+      "source_location": "L332"
     },
     {
-      "id": "survey_index_rationale_463",
+      "id": "survey_index_rationale_471",
       "label": "Count fields in a row that parse as numbers (used for header detection).",
       "_origin": "ast",
       "community": 4,
-      "community_name": "Community 4",
+      "community_name": "parse_csv_meta",
       "file_type": "rationale",
       "norm_label": "count fields in a row that parse as numbers (used for header detection).",
       "source_file": "survey_index.py",
-      "source_location": "L463"
+      "source_location": "L471"
     },
     {
-      "id": "survey_index_rationale_218",
+      "id": "survey_index_rationale_226",
       "label": "Read TIFF/BigTIFF IFD for dimensions and GeoTIFF spatial tags (33550+33922 or\u2026",
       "_origin": "ast",
       "community": 5,
-      "community_name": "Community 5",
+      "community_name": "parse_tiff_header",
       "file_type": "rationale",
       "norm_label": "read tiff/bigtiff ifd for dimensions and geotiff spatial tags (33550+33922 or...",
       "source_file": "survey_index.py",
-      "source_location": "L218"
-    },
-    {
-      "id": "survey_index_rationale_647",
-      "label": "Index TIFF/GeoTIFF orthophotos: hash-dedup by first 64 KB, path priority.",
-      "_origin": "ast",
-      "community": 5,
-      "community_name": "Community 5",
-      "file_type": "rationale",
-      "norm_label": "index tiff/geotiff orthophotos: hash-dedup by first 64 kb, path priority.",
-      "source_file": "survey_index.py",
-      "source_location": "L647"
+      "source_location": "L226"
     },
     {
       "id": "mcp",
       "label": ".mcp.json",
       "_origin": "ast",
       "community": 6,
-      "community_name": "Community 6",
+      "community_name": "graphify",
       "file_type": "code",
       "metadata": {
         "mcp_kind": "mcp_config_file"
@@ -555,7 +698,7 @@
       "label": "C:\\Users\\lcolton1\\AppData\\Roaming\\uv\\tools\\graphifyy\\Scripts\\python.exe",
       "_origin": "ast",
       "community": 6,
-      "community_name": "Community 6",
+      "community_name": "graphify",
       "file_type": "code",
       "metadata": {
         "mcp_kind": "mcp_command"
@@ -569,7 +712,7 @@
       "label": "graphify",
       "_origin": "ast",
       "community": 6,
-      "community_name": "Community 6",
+      "community_name": "graphify",
       "file_type": "code",
       "metadata": {
         "mcp_kind": "mcp_server"
@@ -583,11 +726,275 @@
       "label": "open_folder.ps1",
       "_origin": "ast",
       "community": 7,
-      "community_name": "Community 7",
+      "community_name": "open_folder.ps1",
       "file_type": "code",
       "norm_label": "open_folder.ps1",
       "source_file": "open_folder.ps1",
       "source_location": "L1"
+    },
+    {
+      "id": "readme",
+      "label": "README.md",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "readme.md",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "readme_all_options",
+      "label": "All options",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "all options",
+      "source_file": "README.md",
+      "source_location": "L75"
+    },
+    {
+      "id": "readme_deduplication",
+      "label": "Deduplication",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "deduplication",
+      "source_file": "README.md",
+      "source_location": "L93"
+    },
+    {
+      "id": "readme_file_types_indexed",
+      "label": "File types indexed",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "file types indexed",
+      "source_file": "README.md",
+      "source_location": "L27"
+    },
+    {
+      "id": "readme_landxml_survey_index",
+      "label": "LandXML Survey Index",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "landxml survey index",
+      "source_file": "README.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "readme_requirements",
+      "label": "Requirements",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "requirements",
+      "source_file": "README.md",
+      "source_location": "L46"
+    },
+    {
+      "id": "readme_scheduled_indexing",
+      "label": "Scheduled indexing",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "scheduled indexing",
+      "source_file": "README.md",
+      "source_location": "L101"
+    },
+    {
+      "id": "readme_screenshots",
+      "label": "Screenshots",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "screenshots",
+      "source_file": "README.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "readme_usage",
+      "label": "Usage",
+      "_origin": "ast",
+      "community": 8,
+      "community_name": "LandXML Survey Index",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "usage",
+      "source_file": "README.md",
+      "source_location": "L53"
+    },
+    {
+      "id": "claude",
+      "label": "CLAUDE.md",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "CLAUDE.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "claude.md",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "claude_graphify",
+      "label": "graphify",
+      "_origin": "ast",
+      "community": 9,
+      "community_name": "CLAUDE.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "graphify",
+      "source_file": "CLAUDE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "argparse",
+      "label": "argparse",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "argparse",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "base64",
+      "label": "base64",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "base64",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "collections",
+      "label": "collections",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "collections",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "datetime",
+      "label": "datetime",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "datetime",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "hashlib",
+      "label": "hashlib",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "hashlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "json",
+      "label": "json",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "json",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "os",
+      "label": "os",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "os",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "pathlib",
+      "label": "pathlib",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "pathlib",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "struct",
+      "label": "struct",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "struct",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "urllib_parse",
+      "label": "urllib_parse",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "urllib_parse",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "urllib_request",
+      "label": "urllib_request",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "urllib_request",
+      "source_file": "",
+      "type": "external"
+    },
+    {
+      "id": "xml_etree_elementtree",
+      "label": "xml_etree_elementtree",
+      "community": 3,
+      "community_name": "survey_index.py",
+      "external": true,
+      "file_type": "concept",
+      "norm_label": "xml_etree_elementtree",
+      "source_file": "",
+      "type": "external"
     }
   ],
   "links": [
@@ -600,19 +1007,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L478",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_build_csv_rows",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L757",
+      "source_location": "L486",
       "weight": 1.0
     },
     {
@@ -624,7 +1019,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L767",
+      "source_location": "L775",
       "weight": 1.0
     },
     {
@@ -636,7 +1031,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L770",
+      "source_location": "L778",
       "weight": 1.0
     },
     {
@@ -648,7 +1043,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L781",
+      "source_location": "L789",
       "weight": 1.0
     },
     {
@@ -660,7 +1055,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L798",
+      "source_location": "L806",
       "weight": 1.0
     },
     {
@@ -672,19 +1067,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L801",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_build_laz_rows",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L604",
+      "source_location": "L809",
       "weight": 1.0
     },
     {
@@ -696,7 +1079,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L610",
+      "source_location": "L618",
       "weight": 1.0
     },
     {
@@ -708,7 +1091,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L611",
+      "source_location": "L619",
       "weight": 1.0
     },
     {
@@ -720,7 +1103,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L614",
+      "source_location": "L622",
       "weight": 1.0
     },
     {
@@ -732,7 +1115,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L623",
+      "source_location": "L631",
       "weight": 1.0
     },
     {
@@ -744,7 +1127,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L638",
+      "source_location": "L646",
       "weight": 1.0
     },
     {
@@ -756,19 +1139,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L641",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_build_ortho_rows",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L652",
+      "source_location": "L649",
       "weight": 1.0
     },
     {
@@ -780,7 +1151,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L658",
+      "source_location": "L666",
       "weight": 1.0
     },
     {
@@ -792,7 +1163,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L659",
+      "source_location": "L667",
       "weight": 1.0
     },
     {
@@ -804,7 +1175,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L676",
+      "source_location": "L684",
       "weight": 1.0
     },
     {
@@ -816,7 +1187,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L686",
+      "source_location": "L694",
       "weight": 1.0
     },
     {
@@ -828,7 +1199,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L701",
+      "source_location": "L709",
       "weight": 1.0
     },
     {
@@ -840,7 +1211,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L704",
+      "source_location": "L712",
       "weight": 1.0
     },
     {
@@ -852,7 +1223,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L518",
+      "source_location": "L526",
       "weight": 1.0
     },
     {
@@ -864,19 +1235,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L557",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_build_rows",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L558",
+      "source_location": "L565",
       "weight": 1.0
     },
     {
@@ -888,19 +1247,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L560",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_build_vce_rows",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L715",
+      "source_location": "L568",
       "weight": 1.0
     },
     {
@@ -912,7 +1259,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L721",
+      "source_location": "L729",
       "weight": 1.0
     },
     {
@@ -924,7 +1271,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L722",
+      "source_location": "L730",
       "weight": 1.0
     },
     {
@@ -936,7 +1283,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L731",
+      "source_location": "L739",
       "weight": 1.0
     },
     {
@@ -948,7 +1295,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L742",
+      "source_location": "L750",
       "weight": 1.0
     },
     {
@@ -960,31 +1307,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L745",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_file_mtime",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L165",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_find_files",
-      "target": "survey_index_scan_files",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L106",
+      "source_location": "L753",
       "weight": 1.0
     },
     {
@@ -996,43 +1319,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L99",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
-      "source": "survey_index_folder_url",
-      "target": "path",
+      "source": "survey_index_find_files",
+      "target": "survey_index_scan_files",
       "relation": "calls",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L483",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_is_local",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L179",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_main",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L1167",
+      "source_location": "L114",
       "weight": 1.0
     },
     {
@@ -1044,7 +1343,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1172",
+      "source_location": "L1180",
       "weight": 1.0
     },
     {
@@ -1056,7 +1355,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1178",
+      "source_location": "L1186",
       "weight": 1.0
     },
     {
@@ -1068,7 +1367,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1180",
+      "source_location": "L1188",
       "weight": 1.0
     },
     {
@@ -1080,7 +1379,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1186",
+      "source_location": "L1194",
       "weight": 1.0
     },
     {
@@ -1092,7 +1391,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1187",
+      "source_location": "L1195",
       "weight": 1.0
     },
     {
@@ -1104,7 +1403,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1195",
+      "source_location": "L1203",
       "weight": 1.0
     },
     {
@@ -1116,7 +1415,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1203",
+      "source_location": "L1211",
       "weight": 1.0
     },
     {
@@ -1128,7 +1427,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1211",
+      "source_location": "L1219",
       "weight": 1.0
     },
     {
@@ -1140,7 +1439,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1227",
+      "source_location": "L1235",
       "weight": 1.0
     },
     {
@@ -1152,7 +1451,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1235",
+      "source_location": "L1243",
       "weight": 1.0
     },
     {
@@ -1164,7 +1463,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1239",
+      "source_location": "L1247",
       "weight": 1.0
     },
     {
@@ -1176,7 +1475,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L464",
+      "source_location": "L472",
       "weight": 1.0
     },
     {
@@ -1188,7 +1487,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L367",
+      "source_location": "L375",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_parse_csv_meta_consume",
+      "target": "survey_index_is_number",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L419",
       "weight": 1.0
     },
     {
@@ -1200,19 +1511,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L135",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_parse_file",
-      "target": "path",
-      "relation": "calls",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "context": "call",
-      "source_file": "survey_index.py",
-      "source_location": "L136",
+      "source_location": "L143",
       "weight": 1.0
     },
     {
@@ -1224,7 +1523,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L150",
+      "source_location": "L158",
       "weight": 1.0
     },
     {
@@ -1236,7 +1535,187 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "survey_index.py",
-      "source_location": "L1063",
+      "source_location": "L1071",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_av",
+      "target": "survey_index_is_local",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L990",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_alignment",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1000",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_csv",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1030",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_ortho",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1010",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_pointcloud",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1003",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_surface",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L993",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html_ser_vce",
+      "target": "survey_index_render_html_av",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1013",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_panel",
+      "target": "survey_index_panel_th",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L953",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_parse_csv_meta",
+      "target": "survey_index_parse_csv_meta_consume",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L400",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_pointcloud",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1001",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_ortho",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1004",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_vce",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1011",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_csv",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L1014",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_surface",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L991",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_ser_alignment",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "survey_index.py",
+      "source_location": "L994",
       "weight": 1.0
     },
     {
@@ -1252,6 +1731,150 @@
       "weight": 1.0
     },
     {
+      "source": "survey_index",
+      "target": "argparse",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "base64",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "hashlib",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "json",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "os",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "struct",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L48",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "urllib_parse",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L49",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "urllib_request",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L50",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "xml_etree_elementtree",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L51",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "collections",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L52",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "datetime",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "pathlib",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "survey_index.py",
+      "source_location": "L54",
+      "weight": 1.0
+    },
+    {
       "source": "survey_index_render_html",
       "target": "path",
       "relation": "references",
@@ -1260,7 +1883,29 @@
       "confidence_score": 1.0,
       "context": "parameter_type",
       "source_file": "survey_index.py",
-      "source_location": "L968",
+      "source_location": "L976",
+      "weight": 1.0
+    },
+    {
+      "source": "claude",
+      "target": "claude_graphify",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "CLAUDE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "github_copilot_instructions",
+      "target": "github_copilot_instructions_graphify",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": ".github/copilot-instructions.md",
+      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -1275,14 +1920,102 @@
       "weight": 1.0
     },
     {
+      "source": "readme",
+      "target": "readme_landxml_survey_index",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_scheduled_indexing",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_file_types_indexed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_requirements",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L46",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_screenshots",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_usage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L53",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_landxml_survey_index",
+      "target": "readme_deduplication",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L93",
+      "weight": 1.0
+    },
+    {
+      "source": "readme_usage",
+      "target": "readme_all_options",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "README.md",
+      "source_location": "L75",
+      "weight": 1.0
+    },
+    {
       "source": "survey_index",
-      "target": "survey_index_surface_point_count",
+      "target": "survey_index_find_files",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L109",
+      "source_location": "L102",
       "weight": 1.0
     },
     {
@@ -1293,7 +2026,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L1112",
+      "source_location": "L1120",
       "weight": 1.0
     },
     {
@@ -1304,7 +2037,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L1129",
+      "source_location": "L1137",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index",
+      "target": "survey_index_surface_point_count",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "survey_index.py",
+      "source_location": "L117",
       "weight": 1.0
     },
     {
@@ -1315,7 +2059,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L130",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -1326,7 +2070,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L163",
+      "source_location": "L171",
       "weight": 1.0
     },
     {
@@ -1337,7 +2081,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L170",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -1348,7 +2092,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L176",
+      "source_location": "L184",
       "weight": 1.0
     },
     {
@@ -1359,7 +2103,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L184",
+      "source_location": "L192",
       "weight": 1.0
     },
     {
@@ -1370,7 +2114,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L208",
+      "source_location": "L216",
       "weight": 1.0
     },
     {
@@ -1381,7 +2125,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L217",
+      "source_location": "L225",
       "weight": 1.0
     },
     {
@@ -1392,7 +2136,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L323",
+      "source_location": "L331",
       "weight": 1.0
     },
     {
@@ -1403,7 +2147,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L454",
+      "source_location": "L462",
       "weight": 1.0
     },
     {
@@ -1414,7 +2158,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L462",
+      "source_location": "L470",
       "weight": 1.0
     },
     {
@@ -1425,7 +2169,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L469",
+      "source_location": "L477",
       "weight": 1.0
     },
     {
@@ -1436,7 +2180,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L477",
+      "source_location": "L485",
       "weight": 1.0
     },
     {
@@ -1447,7 +2191,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L481",
+      "source_location": "L489",
       "weight": 1.0
     },
     {
@@ -1458,7 +2202,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L494",
+      "source_location": "L502",
       "weight": 1.0
     },
     {
@@ -1469,7 +2213,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L590",
+      "source_location": "L598",
       "weight": 1.0
     },
     {
@@ -1480,7 +2224,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L598",
+      "source_location": "L606",
       "weight": 1.0
     },
     {
@@ -1491,7 +2235,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L646",
+      "source_location": "L654",
       "weight": 1.0
     },
     {
@@ -1502,7 +2246,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L709",
+      "source_location": "L717",
       "weight": 1.0
     },
     {
@@ -1524,7 +2268,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L750",
+      "source_location": "L758",
       "weight": 1.0
     },
     {
@@ -1535,18 +2279,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L81",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index",
-      "target": "survey_index_find_files",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "survey_index.py",
-      "source_location": "L94",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -1557,7 +2290,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L944",
+      "source_location": "L952",
       "weight": 1.0
     },
     {
@@ -1568,7 +2301,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L968",
+      "source_location": "L976",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_render_html",
+      "target": "survey_index_render_html_av",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "survey_index.py",
+      "source_location": "L990",
       "weight": 1.0
     },
     {
@@ -1583,41 +2327,41 @@
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_110",
+      "source": "survey_index_rationale_103",
+      "target": "survey_index_find_files",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "survey_index.py",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_rationale_118",
       "target": "survey_index_surface_point_count",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L110",
+      "source_location": "L118",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_133",
+      "source": "survey_index_rationale_141",
       "target": "survey_index_parse_file",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L133",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_rationale_177",
-      "target": "survey_index_is_local",
-      "relation": "rationale_for",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "survey_index.py",
-      "source_location": "L177",
+      "source_location": "L141",
       "weight": 1.0
     },
     {
       "source": "survey_index_rationale_185",
-      "target": "survey_index_parse_laz_header",
+      "target": "survey_index_is_local",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -1627,138 +2371,149 @@
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_209",
+      "source": "survey_index_rationale_193",
+      "target": "survey_index_parse_laz_header",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "survey_index.py",
+      "source_location": "L193",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_rationale_217",
       "target": "survey_index_partial_hash",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L209",
+      "source_location": "L217",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_218",
+      "source": "survey_index_rationale_226",
       "target": "survey_index_parse_tiff_header",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L218",
+      "source_location": "L226",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_324",
+      "source": "survey_index_rationale_332",
       "target": "survey_index_parse_csv_meta",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L324",
+      "source_location": "L332",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_463",
+      "source": "survey_index_rationale_471",
       "target": "survey_index_numcount",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L463",
+      "source_location": "L471",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_482",
+      "source": "survey_index_rationale_490",
       "target": "survey_index_folder_url",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L482",
+      "source_location": "L490",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_501",
+      "source": "survey_index_rationale_509",
       "target": "survey_index_build_rows",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L501",
+      "source_location": "L509",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_599",
+      "source": "survey_index_rationale_607",
       "target": "survey_index_build_laz_rows",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L599",
+      "source_location": "L607",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_647",
+      "source": "survey_index_rationale_655",
       "target": "survey_index_build_ortho_rows",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L647",
+      "source_location": "L655",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_710",
+      "source": "survey_index_rationale_718",
       "target": "survey_index_build_vce_rows",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L710",
+      "source_location": "L718",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_751",
+      "source": "survey_index_rationale_74",
+      "target": "survey_index_query_everything",
+      "relation": "rationale_for",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "survey_index.py",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "survey_index_rationale_759",
       "target": "survey_index_build_csv_rows",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L751",
+      "source_location": "L759",
       "weight": 1.0
     },
     {
-      "source": "survey_index_rationale_82",
+      "source": "survey_index_rationale_90",
       "target": "survey_index_scan_files",
       "relation": "rationale_for",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "survey_index.py",
-      "source_location": "L82",
-      "weight": 1.0
-    },
-    {
-      "source": "survey_index_rationale_95",
-      "target": "survey_index_find_files",
-      "relation": "rationale_for",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "survey_index.py",
-      "source_location": "L95",
+      "source_location": "L90",
       "weight": 1.0
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "1d49ccc393c7be856798c5f2ec2f102d52c803cf"
+  "built_at_commit": "5332f31dd27239b4f3b86e52272d130af790406b"
 }

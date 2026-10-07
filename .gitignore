@@ -2,9 +2,15 @@ __pycache__/
 *.pyc
 results.txt
 index.html
+File Finder README.pdf
 
 # Graphify local runtime files
 graphify-out/cache/
 graphify-out/cost.json
 graphify-out/.graphify_*.json
 graphify-out/.graphify_root
+graphify-out/.graphify_*.sig
+graphify-out/needs_update
+graphify-out/graph.html
+# Dated backups made by `graphify update`
+graphify-out/20??-??-??/

@@ -1,32 +1,92 @@
 {
   ".claude/settings.json": {
-    "mtime": 1787682757.4361777,
-    "seen": 1787682855.245264,
+    "mtime": 1787682758.0,
+    "seen": 1791393113.499931,
     "ast_hash": "1a94fadfe609b886d406c03baed07816",
     "semantic_hash": "1a94fadfe609b886d406c03baed07816"
   },
   ".mcp.json": {
-    "mtime": 1787682776.9191937,
-    "seen": 1787682855.2452686,
+    "mtime": 1787682778.0,
+    "seen": 1791393113.499936,
     "ast_hash": "bd7e2514dd34f831eed98439d32e3889",
     "semantic_hash": "bd7e2514dd34f831eed98439d32e3889"
   },
   ".vscode/tasks.json": {
-    "mtime": 1787682844.9211557,
-    "seen": 1787682855.2452705,
+    "mtime": 1787682846.0,
+    "seen": 1791393113.4999385,
     "ast_hash": "a6b216e9455c63b84abe73abff0baa0f",
     "semantic_hash": "a6b216e9455c63b84abe73abff0baa0f"
   },
   "open_folder.ps1": {
-    "mtime": 1778089801.7710958,
-    "seen": 1787682855.2452714,
+    "mtime": 1778089802.0,
+    "seen": 1791393113.4999397,
     "ast_hash": "254c5f57ef9ffd75018fc5af7e6f3ce8",
     "semantic_hash": "254c5f57ef9ffd75018fc5af7e6f3ce8"
   },
   "survey_index.py": {
-    "mtime": 1784314190.5234091,
-    "seen": 1787682855.245274,
-    "ast_hash": "af781c9b5e729bb6e4292bc095e2e143",
-    "semantic_hash": "af781c9b5e729bb6e4292bc095e2e143"
+    "mtime": 1791393073.42544,
+    "seen": 1791393113.4999406,
+    "ast_hash": "a3647736682531023d45e34be71090f3",
+    "semantic_hash": ""
+  },
+  ".github/copilot-instructions.md": {
+    "mtime": 1787682758.0,
+    "seen": 1791393113.4999418,
+    "ast_hash": "2b23503628bf2ec71d067a85ca8948ab",
+    "semantic_hash": ""
+  },
+  "CLAUDE.md": {
+    "mtime": 1787682758.0,
+    "seen": 1791393113.499943,
+    "ast_hash": "8a6643a420fdad6bfb583523bc6cef16",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1791388850.2107038,
+    "seen": 1791393113.4999437,
+    "ast_hash": "6168bab0fa3f14f6d2550c3aac111dff",
+    "semantic_hash": ""
+  },
+  "test_protocol.html": {
+    "mtime": 1778089842.0,
+    "seen": 1791393113.4999442,
+    "ast_hash": "42449a84478eb21f662ddaf67af8af93",
+    "semantic_hash": ""
+  },
+  "screenshots/alignments.jpg": {
+    "mtime": 1781026852.0,
+    "seen": 1791393113.4999459,
+    "ast_hash": "dfd23163c7ca290b06ab133e19f5504c",
+    "semantic_hash": ""
+  },
+  "screenshots/orthophotos.jpg": {
+    "mtime": 1781026924.0,
+    "seen": 1791393113.499947,
+    "ast_hash": "388efb4db25827bbf4e1a516c9ff80f2",
+    "semantic_hash": ""
+  },
+  "screenshots/point-clouds.jpg": {
+    "mtime": 1781026888.0,
+    "seen": 1791393113.4999478,
+    "ast_hash": "c890a52f24321006e3d3d5cd3b17c6d7",
+    "semantic_hash": ""
+  },
+  "screenshots/surfaces.jpg": {
+    "mtime": 1781026840.0,
+    "seen": 1791393113.4999487,
+    "ast_hash": "abf48f381498114a2b54423a6d2080c5",
+    "semantic_hash": ""
+  },
+  "screenshots/tbc-projects.jpg": {
+    "mtime": 1781026982.0,
+    "seen": 1791393113.4999495,
+    "ast_hash": "b043d4ebd4265094eec1d6ba3023a70b",
+    "semantic_hash": ""
+  },
+  "File Finder README.pdf": {
+    "mtime": 1789579248.0,
+    "seen": 1791393113.4999452,
+    "ast_hash": "82ef746c8d3bb1a1c938077cd965279f",
+    "semantic_hash": ""
   }
 }

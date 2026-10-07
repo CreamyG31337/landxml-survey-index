@@ -103,8 +103,8 @@ Duplicate files are automatically collapsed:
 Edit `SEARCH_PATH` and `TITLE` in `run_index.bat`, then register it as a Windows scheduled task:
 
 ```bat
-:: Run weekly on Monday at 7am (run once as admin)
-schtasks /create /tn "Survey Index" /tr "C:\Projects\landxml-survey-index\run_index.bat" /sc weekly /d MON /st 07:00 /f
+:: Run daily at 7am (runs as you, only when logged on - no admin needed)
+schtasks /create /tn "Survey Index" /tr "C:\Projects\file-finder\run_index.bat" /sc daily /st 07:00 /f
 
 :: Run immediately
 schtasks /run /tn "Survey Index"
