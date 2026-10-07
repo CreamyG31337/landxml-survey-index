@@ -70,12 +70,20 @@ DEFAULT_CSV_UNDER = "05-QC SURVEY DATA"
 
 # ── data access ───────────────────────────────────────────────────────────────
 
-def query_everything(search: str, max_results: int = 2000, url: str = "http://localhost") -> list[dict]:
-    params = urllib.parse.urlencode({
-        "s": search, "j": "1", "path_column": "1", "count": str(max_results),
-    })
-    with urllib.request.urlopen(f"{url}/?{params}", timeout=10) as r:
-        return json.loads(r.read().decode())["results"]
+def query_everything(search: str, url: str = "http://localhost", page_size: int = 2000) -> list[dict]:
+    """Return every match, paging through the API so large result sets aren't truncated."""
+    results: list[dict] = []
+    while True:
+        params = urllib.parse.urlencode({
+            "s": search, "j": "1", "path_column": "1",
+            "offset": str(len(results)), "count": str(page_size),
+        })
+        with urllib.request.urlopen(f"{url}/?{params}", timeout=10) as r:
+            data = json.loads(r.read().decode())
+        page = data["results"]
+        results.extend(page)
+        if not page or len(results) >= data["totalResults"]:
+            return results
 
 
 def scan_files(search_path: str, ext: str) -> list[dict]:
@@ -91,12 +99,12 @@ def scan_files(search_path: str, ext: str) -> list[dict]:
 _everything_ok: bool | None = None  # None = untested, True = working, False = unavailable
 
 
-def find_files(search_path: str, ext: str, everything_url: str = "http://localhost", max_results: int = 2000) -> list[dict]:
+def find_files(search_path: str, ext: str, everything_url: str = "http://localhost") -> list[dict]:
     """Query Everything if available; fall back to os.walk silently after first failure."""
     global _everything_ok
     if _everything_ok is not False:
         try:
-            results = query_everything(f'ext:{ext} path:"{search_path}"', max_results, everything_url)
+            results = query_everything(f'ext:{ext} path:"{search_path}"', everything_url)
             _everything_ok = True
             return results
         except Exception:

@@ -14,10 +14,10 @@ cd /d %~dp0
 :: NOTE: SEARCH_PATH is passed unquoted. A drive root like S:\ must be unquoted -
 :: "S:\" would parse the trailing \" as an escaped quote. If you point this at a
 :: folder whose name has spaces, drop the trailing backslash and quote it instead.
-uv run survey_index.py --path %SEARCH_PATH% --title "%TITLE%" --logo "%LOGO%" --batch
+uv run survey_index.py --path %SEARCH_PATH% --title "%TITLE%" --logo "%LOGO%" --everything-url http://localhost:8080 --batch
 
-:: Register as a weekly Monday 7am task (runs as you, only when logged on - no admin needed):
-::   schtasks /create /tn "Survey Index" /tr "C:\Projects\file-finder\run_index.bat" /sc weekly /d MON /st 07:00 /f
+:: Register as a daily 7am task (runs as you, only when logged on - no admin needed):
+::   schtasks /create /tn "Survey Index" /tr "C:\Projects\file-finder\run_index.bat" /sc daily /st 07:00 /f
 ::
 :: To run it immediately from Task Scheduler:
 ::   schtasks /run /tn "Survey Index"
