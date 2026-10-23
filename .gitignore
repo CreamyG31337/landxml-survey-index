@@ -22,3 +22,6 @@ graphify-out/needs_update
 graphify-out/graph.html
 # Dated backups made by `graphify update`
 graphify-out/20??-??-??/
+
+# Real run script (copy run_index.example.bat; holds real paths)
+run_index.bat
