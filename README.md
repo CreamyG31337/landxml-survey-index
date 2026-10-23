@@ -86,7 +86,7 @@ Duplicate files are automatically collapsed:
 
 ## Scheduled indexing
 
-Edit `SEARCH_PATH` and `TITLE` in `run_index.bat`, then register it as a Windows scheduled task:
+Copy `run_index.example.bat` to `run_index.bat` (which git ignores, since it holds your real paths), edit its settings, then register it as a Windows scheduled task:
 
 ```bat
 :: Run daily at 7am (runs as you, only when logged on - no admin needed)
