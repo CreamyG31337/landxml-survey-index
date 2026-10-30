@@ -136,13 +136,17 @@ def surface_point_count(el, pfx: str) -> int:
 
 
 def parse_file(
-    filepath: str, tags: list[str]
+    filepath: str, tags: list[str], max_download_bytes: int = 0
 ) -> tuple[dict[str, list[tuple[str, int]]], str | None]:
-    """Read file once; return ({tag: [(name, pts, faces)]}, md5). Non-LandXML → ({}, None)."""
+    """Read file once; return ({tag: [(name, pts, faces)]}, md5). Non-LandXML → ({}, None).
+
+    Cloud-only (OneDrive placeholder) files are read — which makes OneDrive download
+    them — only if no larger than max_download_bytes; otherwise they are skipped,
+    since their contents can't be known without downloading.
+    """
     try:
-        if not is_local(filepath):
-            name = Path(filepath).stem
-            return {tag: [(name, 0, 0, 0.0, 0.0)] for tag in tags}, None
+        if not is_local(filepath) and Path(filepath).stat().st_size > max_download_bytes:
+            return {}, None
         content = Path(filepath).read_bytes()
         md5 = hashlib.md5(content).hexdigest()
         root = ET.fromstring(content)
@@ -1158,6 +1162,9 @@ def main() -> None:
     parser.add_argument("--output", choices=["html", "txt"], default="html")
     parser.add_argument("--no-hash-dedup",    action="store_true")
     parser.add_argument("--no-content-dedup", action="store_true")
+    parser.add_argument("--download-cloud-xml-mb", type=float, default=0, metavar="MB",
+                        help="Download (via OneDrive) and parse cloud-only XML files up to "
+                             "this size in MB; larger ones are skipped (default: 0 = skip all)")
     parser.add_argument("--prefer-path", metavar="FRAGMENT", action="append", default=[],
                         help="Prepend folder fragment to priority list (repeatable)")
     parser.add_argument("--csv-under", default=DEFAULT_CSV_UNDER, metavar="FRAGMENT",
@@ -1180,13 +1187,29 @@ def main() -> None:
     results = find_files(search_path, "xml", eu)
     print(f"Found {len(results)} XML file(s) — parsing for {', '.join(tags)}…\n")
 
+    max_dl = int(args.download_cloud_xml_mb * 1024 * 1024)
     raw: list[tuple[str, dict, float, str | None]] = []
+    n_downloaded = n_skipped = 0
     for item in results:
         path = str(Path(item["path"]) / item["name"])
-        info, md5 = parse_file(path, tags)
+        if not is_local(path):
+            try:
+                too_big = Path(path).stat().st_size > max_dl
+            except OSError:
+                too_big = True
+            if too_big:
+                n_skipped += 1
+            else:
+                n_downloaded += 1
+        info, md5 = parse_file(path, tags, max_dl)
         if info:
             raw.append((path, info, file_mtime(path), md5))
 
+    if n_downloaded:
+        print(f"Downloaded {n_downloaded} cloud-only XML file(s) via OneDrive.")
+    if n_skipped:
+        print(f"Skipped {n_skipped} cloud-only XML file(s) over the "
+              f"{args.download_cloud_xml_mb:g} MB --download-cloud-xml-mb limit.")
     print(f"Parsed {len(raw)} LandXML file(s) with matching elements.\n")
 
     rows_by_tag: dict[str, list[dict]] = {}

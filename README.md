@@ -23,6 +23,8 @@ Indexes geospatial survey files in a project folder and produces a self-containe
 
 All tabs show: date modified, filename, cloud/local availability (✓ / ☁), and a **Copy Path** button.
 
+> **Cloud-only LandXML:** an OneDrive online-only `.xml` can't be inspected without downloading it, so by default it is left out of the Surfaces and Alignments tabs. Pass `--download-cloud-xml-mb 25` (for example) to let OneDrive download and parse cloud-only XML files up to 25 MB; the console reports how many were downloaded and how many were skipped as too large. Downloaded files stay local afterwards.
+
 > **CSV extent:** the delimiter (`,` `;` or tab) is auto-detected. The E/N bounding box and elevation range are computed only when a header row names the coordinate columns (`Northing`/`Easting`/`Elevation`, `X`/`Y`/`Z`, etc.); they appear as a tooltip on the **Points** cell. Headerless PNEZD exports still get accurate row/column counts — just no extent.
 >
 > **Find files by feature code / content:** the CSV filter box searches **file content**, not just filenames. Each CSV's distinct text values — feature codes, descriptions, layers — are indexed so that typing a code (e.g. `SGSB`) narrows the list to every CSV that contains it. High-cardinality columns (point IDs, coordinates) are excluded to keep the report small. The **Codes** column additionally shows the count of distinct feature codes from the detected code column (`Code`, `Description`, `Feature`, `String`, `Layer`, … when named, otherwise the trailing description field, as in a headerless PNEZD export); hover it to see the full list.
@@ -72,6 +74,7 @@ uv run survey_index.py --path "C:\Projects\MyProject" --output txt
 | `--sort name\|date\|size` | `name` | Initial sort order |
 | `--output html\|txt` | `html` | Output format |
 | `--prefer-path FRAGMENT` | *(repeatable)* | Prepend a folder fragment to the path-priority list |
+| `--download-cloud-xml-mb MB` | `0` | Download (via OneDrive) and parse cloud-only `.xml` files up to this size; larger ones are skipped. `0` skips all cloud-only XML |
 | `--csv-under FRAGMENT` | `05-QC SURVEY DATA` | Only index CSVs whose path contains this folder fragment (`""` = anywhere) |
 | `--no-hash-dedup` | off | Disable file-level hash deduplication |
 | `--no-content-dedup` | off | Disable geometry-level deduplication (LandXML only) |
