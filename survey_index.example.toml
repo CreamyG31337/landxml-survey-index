@@ -1,0 +1,94 @@
+# Settings for survey_index.py.
+#
+# Copy this file to survey_index.toml (next to survey_index.py; git ignores it)
+# and adjust it to your project, or point at any file with --config FILE.
+# Every setting is optional: leave one out and the built-in default applies.
+# A setting you give replaces the default outright — lists are not merged — so
+# copy the default list first if you only want to add to it.
+#
+# Folder names below are matched as fragments of the full path, ignoring case.
+
+[paths]
+# Folder fragments in order of preference. When the same file exists in several
+# places, the report shows the copy whose path matches the earliest entry here.
+# Default: [] (no preference). An example numbered project layout:
+priority = [
+    "02-DESIGN",
+    "03-ASBUILTS",
+    "05-QC SURVEY DATA",
+    "07-DATALOGGER BACKUP",
+    "01-OUTPUT",
+    '06-WORKING DATA\TBC',      # single quotes: TOML literal string, so \ stays a backslash
+    "06-WORKING DATA",
+]
+
+# Only index CSV files whose path contains this fragment, e.g. the folder where
+# crews file their coded point exports. Default: "" (CSVs anywhere in the tree).
+csv_under = "05-QC SURVEY DATA"
+
+# CSVs whose path contains this fragment are the project's control list. Any
+# point in another CSV that lies on one of those coordinates (within
+# [footprints] control_tolerance) is treated as control, whatever the surveyor
+# named or coded it — the most reliable way to catch it. Default: "" (no list;
+# control is recognised by the code/name rules in [control] only).
+# Don't rely on file names: a file called "...CONTROL.csv" may be a controller dump.
+control_under = "01-Survey Control"
+
+[footprints]
+# Grid cell size in metres for surface and CSV footprints (where each file's
+# points lie). Smaller = more precise boundary searches, larger footprints file.
+cell_size = 5.0
+
+# Distance in metres within which a CSV point counts as sitting on a control-list
+# point. Re-observations of a monument typically agree to a few centimetres.
+control_tolerance = 0.10
+
+# Scans recorded in Trimble JobXML (.jxl) files are located from their
+# instrument station and scan frame. The frame's directions are projected out to
+# the distance the frame was defined at; this is the fallback reach in metres
+# for frames that don't record one.
+scan_reach = 40.0
+
+[map]
+# Orthophoto drawn behind the report's Map tab. Point at an image with a world
+# file beside it (.jpg + .jgw, .png + .pgw, .tif + .tfw, or .wld) or at a .zip
+# holding both, as drone platforms deliver their JPEG exports. A path or glob
+# pattern, relative to --path unless absolute; when several files match, the
+# newest is used — so a pattern over the folder where new orthos are dropped
+# keeps the map current. The image is cut into tiles in a folder next to the
+# report (index.html -> index.basemap\), redone only when the source changes.
+# Needs the Pillow package: `uv run survey_index.py` installs it automatically.
+# Default: "" (no background). Example:
+# basemap = '01-OUTPUT\10-Basemaps\**\*JPEG*.zip'
+basemap = ""
+
+# Coarsest ground resolution (metres per pixel) for the background tiles. The
+# image is decoded at full, 1/2, 1/4 or 1/8 scale — the coarsest that's at least
+# this detailed (JPEG decodes straight to that scale, so it's fast). E.g. a 2.8 cm
+# ortho becomes 11 cm tiles. Finer costs memory: decoding a gigapixel ortho at
+# 1/2 scale needs about 2 GB.
+basemap_resolution = 0.15
+
+[control]
+# How to recognise control, setups and checks in CSV point files, so they don't
+# make a file look like it has as-built data at every monument it touched.
+# Control points are left out of a file's footprint and extent, but still counted
+# and still searchable by code. Blank codes are never treated as control.
+
+# Words that mark a point CODE as control. Whole words, case-insensitive,
+# trailing digits allowed (MON matches MON2), "_" reads as a space.
+# Add the codes your own crews and subcontractors use for targets, setups and
+# instrument checks (e.g. "TRG", "SPK", "MCHN CHK").
+code_words = [
+    "MON", "MONUMENT", "BM", "BENCHMARK", "BENCH MARK", "CP", "CTRL", "CONTROL",
+    "IRON BAR", "IRON PIN", "IB", "BRASS CAP", "BRASS PLUG", "BRASS DISC",
+    "NAIL", "PK", "SPIKE", "TARGET",
+]
+
+# Codes that mean control only when they are the ENTIRE code, optionally with
+# "-<number>": TEST and TEST-001 match, DENSITY-TEST or TEST-PIT do not.
+whole_codes = ["TEST"]
+
+# Point NAME prefixes that mark control, when followed by a digit, a space, "-",
+# "_" or nothing: CP matches CP1 and "CP 2" but not CPOND.
+name_prefixes = ["CP", "MON", "BM", "IB", "CTRL"]
