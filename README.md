@@ -43,7 +43,7 @@ All tabs show: date modified, filename, cloud/local availability (✓ / ☁), an
 >
 > **Find files by feature code / content:** the CSV filter box searches **file content**, not just filenames. Each CSV's distinct text values — feature codes, descriptions, layers — are indexed so that typing a code (e.g. `EOP`) narrows the list to every CSV that contains it. High-cardinality columns (point IDs, coordinates) are excluded to keep the report small. The **Codes** column additionally shows the count of distinct feature codes from the detected code column (`Code`, `Description`, `Feature`, `String`, `Layer`, … when named, otherwise the trailing description field, as in a headerless PNEZD export); hover it to see the full list.
 >
-> **Folder scope:** CSVs are indexed anywhere in the tree by default. To keep the tab focused on coded survey points, set `csv_under` in the [config file](#configuration) to the folder your crews file point exports in (or pass `--csv-under "FRAGMENT"`).
+> **Folder scope:** CSVs are indexed anywhere in the tree by default. To keep the tab focused on coded survey points, set `csv_under` in the [config file](#configuration) to the folder your crews file point exports in, or a list of folders (or pass `--csv-under "FRAGMENT"`, repeated for several).
 
 ## Map
 
@@ -94,7 +94,7 @@ Settings that depend on your project — folder layout, where the control list l
 | Section | Setting | Default | Purpose |
 |---|---|---|---|
 | `[paths]` | `priority` | `[]` | Folder fragments, most preferred first, for choosing which copy of a duplicate file to show |
-| | `csv_under` | `""` | Only index CSVs under this folder fragment (`""` = anywhere) |
+| | `csv_under` | `""` | Only index CSVs under this folder fragment, or any of a list of them (`""` = anywhere) |
 | | `control_under` | `""` | CSVs under this folder fragment are the control list (`""` = none) |
 | `[footprints]` | `cell_size` | `5.0` | Footprint grid cell size, metres |
 | | `control_tolerance` | `0.10` | How close (metres) a point must be to a control-list point to count as control |
@@ -123,7 +123,7 @@ Command-line flags (`--csv-under`, `--control-under`, `--prefer-path`) override 
 | `--output html\|txt` | `html` | Output format |
 | `--prefer-path FRAGMENT` | *(repeatable)* | Prepend a folder fragment to the config's path-priority list |
 | `--download-cloud-xml-mb MB` | `0` | Download (via OneDrive) and parse cloud-only `.xml` and `.jxl` files up to this size; larger ones are skipped. `0` skips all cloud-only XML/JXL |
-| `--csv-under FRAGMENT` | config `csv_under` | Only index CSVs whose path contains this folder fragment (`""` = anywhere) |
+| `--csv-under FRAGMENT` | config `csv_under` | *(repeatable)* Only index CSVs whose path contains this folder fragment, or any of the repeated ones (`""` = anywhere) |
 | `--control-under FRAGMENT` | config `control_under` | CSVs under this folder are the project control list; points on those coordinates are left out of CSV footprints (`""` = code/name matching only) |
 | `--no-hash-dedup` | off | Disable file-level hash deduplication |
 | `--no-content-dedup` | off | Disable geometry-level deduplication (LandXML only) |

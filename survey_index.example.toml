@@ -23,7 +23,9 @@ priority = [
 ]
 
 # Only index CSV files whose path contains this fragment, e.g. the folder where
-# crews file their coded point exports. Default: "" (CSVs anywhere in the tree).
+# crews file their coded point exports. Give a list to include several folders,
+# e.g. ["05-QC SURVEY DATA", '06-WORKING DATA\TBC\_EXPORT'] (single quotes keep
+# backslashes literal). Default: "" (CSVs anywhere in the tree).
 csv_under = "05-QC SURVEY DATA"
 
 # CSVs whose path contains this fragment are the project's control list. Any

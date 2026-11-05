@@ -80,7 +80,8 @@ DEFAULT_CONFIG: dict[str, dict] = {
         # Folder-name fragments, most preferred first, used to pick which copy of a
         # duplicated file the report shows. Empty = no preference.
         "priority": [],
-        # Only index CSVs whose path contains this fragment ("" = anywhere).
+        # Only index CSVs whose path contains this fragment, or any of a list of
+        # fragments ("" or [] = anywhere).
         "csv_under": "",
         # CSVs whose path contains this fragment are the project control list
         # ("" = none; control is then recognised by code/name only).
@@ -2296,10 +2297,10 @@ def main() -> None:
                              "skipped (default: 0 = skip all)")
     parser.add_argument("--prefer-path", metavar="FRAGMENT", action="append", default=[],
                         help="Prepend folder fragment to the config's priority list (repeatable)")
-    parser.add_argument("--csv-under", default=paths_cfg["csv_under"], metavar="FRAGMENT",
-                        help="Only index CSV files whose path contains this folder "
-                             f"fragment (default from config: '{paths_cfg['csv_under']}'; "
-                             "\"\" = anywhere)")
+    parser.add_argument("--csv-under", action="append", default=None, metavar="FRAGMENT",
+                        help="Only index CSV files whose path contains this folder fragment; "
+                             "repeat for several folders (default from config: "
+                             f"{paths_cfg['csv_under']!r}; \"\" = anywhere)")
     parser.add_argument("--control-under", default=paths_cfg["control_under"], metavar="FRAGMENT",
                         help="CSVs whose path contains this folder fragment are the project "
                              "control list; matching points are left out of CSV footprints "
@@ -2410,12 +2411,15 @@ def main() -> None:
             control = load_control(ctrl_paths)
             print(f"Loaded {len(control)} control point(s) from {len(ctrl_paths)} CSV(s) "
                   f"under '{args.control_under}'.")
-        if args.csv_under:
-            frag = args.csv_under.lower()
+        csv_under = args.csv_under if args.csv_under is not None else paths_cfg["csv_under"]
+        if isinstance(csv_under, str):
+            csv_under = [csv_under]
+        frags = [f.lower() for f in csv_under if f]
+        if frags:
             kept = [it for it in csv_results
-                    if frag in str(Path(it["path"]) / it["name"]).lower()]
+                    if any(f in str(Path(it["path"]) / it["name"]).lower() for f in frags)]
             print(f"Found {len(csv_results)} CSV file(s); {len(kept)} under "
-                  f"'{args.csv_under}' — reading rows…\n")
+                  f"{' or '.join(repr(f).replace(chr(92) * 2, chr(92)) for f in csv_under if f)} — reading rows…\n")
             csv_results = kept
         else:
             print(f"Found {len(csv_results)} CSV file(s) — reading rows…\n")
