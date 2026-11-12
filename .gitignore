@@ -29,3 +29,6 @@ graphify-out/20??-??-??/
 run_index.bat
 # Real settings (copy survey_index.example.toml; holds project-specific folders and codes)
 survey_index.toml
+
+# pytest
+.pytest_cache/

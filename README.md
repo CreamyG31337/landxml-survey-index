@@ -150,3 +150,13 @@ schtasks /run /tn "Survey Index"
 :: Remove
 schtasks /delete /tn "Survey Index" /f
 ```
+
+## Tests
+
+`tests/test_survey_index.py` checks the parsers and footprints on small synthetic files: CSV header detection and
+column guessing, control-point exclusion, LAS and GeoTIFF headers, config loading, and one end-to-end `--batch`
+run. It needs no project data and no Everything service. Run with pytest:
+
+```
+uv run --with pytest python -m pytest
+```
